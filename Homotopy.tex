@@ -1,0 +1,1459 @@
+\documentclass{ctexart}
+\usepackage[dvipsnames,svgnames]{xcolor}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{a4paper,left=1in,right=1in,top=0.75in,bottom=0.75in}%标准的Microsoft Word 文档页面
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{indentfirst}
+
+\usepackage{pdfpages}
+
+%公式
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{tikz-cd}
+\usepackage{mathrsfs}
+
+%表格
+\usepackage{booktabs}
+\usepackage{diagbox}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{longtable}
+\usepackage{tabularx}
+
+%谱序列
+\usepackage{spectralsequences}
+
+%索引和参考文献
+\usepackage[xindy,splitindex]{imakeidx}
+%\makeindex[
+%	columns=2,
+%	program=truexindy,
+%	intoc=true,
+%	options=-M texindy -I xelatex -C utf8,
+%	title={}]
+%\addbibresource{}
+
+%实现超链接添加
+\usepackage[colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+
+% 设置 PDF 文件信息
+\hypersetup{
+	pdfauthor = {Christopher Chou},
+	pdftitle = {Hodge Decomposition},
+	pdfkeywords = {},
+	CJKbookmarks = true}
+
+\usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{definition}
+\newtheorem{example}[theorem]{例}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem*{remark}{注}
+
+%改变强调方式
+\renewcommand{\emph}{\textbf}
+
+%多样化目录
+%\usepackage{titletoc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\title{24Summer Seminar on Homotopy Theory}
+\author{redenduster@163.com}
+
+\begin{document}
+    \maketitle
+    \tableofcontents
+    
+    \newpage
+    
+    \section{Homotopy Properties of CW Complexes}
+        这次的内容主要取自\cite{Whitehead1978} 5.1-5.3节, \cite{May1999}第十章, 以及\cite{Switzer1975}第六章.
+
+        GOAL 1: CW复形 $X$的同伦群 $\pi_{n}(X,x_0)$仅取决于其 $(n+1)$维骨架. 或者, 为构造EM空间打基础, 这是说向连通空间 $A$上贴一个 $(n+1)$维胞腔不改变 $\pi_{k}(A), k<n$, 但可能杀掉 $\pi_{n}(A)$中元, i.e., $\pi_{n}(A)\to \pi_{n}(A \cup _{f}e^{n+1})$是满射.
+
+        GOAL 2: 对任何一个空间 $Y$, 存在 $CW$复形 $X$与其弱同伦等价.
+
+        设 $A$是一个连通空间, $X$是通过在 $A$上贴 $n$-胞腔得到的, 胞腔为 $\{E_{\alpha}\mid \alpha \in J\}(n\ge 2)$, 特征映射为 $h_{\alpha}:(\Delta^{n},\dot{\Delta}^{n})\to (X,A)$. 则复形偶 $(X,A)$是 $(n-1)$-连通的, 所以Hurewicz映射将 $\pi_{n}^{\dagger}(X,A)$同构地映到 $H_{n}(X,A)$. 同调群 $H_{n}(X,A)$是自由Abel群, 生成元 $e_{\alpha}$一一对应于胞腔 $E_{\alpha}$. 若 $\pi_1(A)$在 $\pi_{n}(X,A)$上的作用平凡(例如, 当 $A$ 1-连通时), 则由Hurewicz定理后者是自由Abel群, 生成元是 $\epsilon_{\alpha}=[h_{\alpha}], \alpha \in J$.
+
+        如果 $A$ 不是 1-连通的, 问题会变得更加困难. 假设 $n > 2$; 那么空间偶 $(X, A)$ 是 2-连通的, 使得 $\pi_1(A) \rightarrow \pi_1(X)$ 是同构. 设 $p : \tilde{X} \rightarrow X$ 是一个万有覆盖映射; 那么,令 $\tilde{A} = p^{-1}(A)$,映射 $p | \tilde{A} : \tilde{A} \rightarrow A$ 也是一个万有覆盖映射. 令 $\Pi$ 为 $\tilde{X}$ 的覆盖变换群, 因此 $\Pi \simeq \pi_1(X) \simeq \pi_1(A)$. 然后我们有同构
+
+        \[
+        \rho : \pi_n(\tilde{X}, \tilde{A}) \simeq H_n(\tilde{X}, \tilde{A})
+        \]
+        (因为 $\tilde{A}$ 是 1-连通的,并且 $(\tilde{X}, \tilde{A})$ 是 $ (n-1)$-连通的); 并且
+
+        \[
+        p_* : \pi_n(\tilde{X}, \tilde{A}) \simeq \pi_n(X, A)
+        \]
+        群 $\Pi$ 作用在 $H_{n}(\tilde{X},\tilde{A})$上, 且复合 $p_* \circ \rho^{-1}:H_{n}(\tilde{X},\tilde{A})\to \pi_{n}(X,A)$是同构.
+
+        因为 $H_{n}(\tilde{X},\tilde{A})$ 是其上有 $\Pi$作用的Abel群, 所以其自然是一个 $\mathbb{Z}(\Pi)$-模, 其中 $\mathbb{Z}(\Pi)$是 $\Pi$的整群环. 这个模的结构是对于 $(X,A)$的每个胞腔, 选取 $(\tilde{X},\tilde{A})$的胞腔 $\tilde{E}_{\alpha}$, 使得 $p\circ \tilde{h}_{\alpha}=h_{\alpha}$, 其中 $h_{\alpha}$是特征映射. 则映射 $h\to h(\tilde{E}_{\alpha})$是 $\Pi$和覆盖 $E_{\alpha}$的胞腔间的一一对应. 因此 $h_* (\tilde{e}_{\alpha}), \alpha \in J, h \in \Pi$构成了 $H_{n}(\tilde(X),\tilde(A))$的一组加法基. 因此作为 $\mathbb{Z}(\Pi)$-模, $H_{n}(\tilde{X},\tilde{A})$是自由模, 基为 $\tilde{e}_{\alpha}, \alpha \in J$. 总结以上结果得到
+
+        \begin{theorem}
+            若 $X$是连通空间 $A$的一个 $n$-胞腔延拓, $n\ge 3$, 则 $\pi_{n}(X,A)$是一个自由 $\mathbb{Z}(\pi_1(A))$-模. 若 $\{E_{\alpha}\mid \alpha \in J\}$ 是 $(X,A)$的 $n$-胞腔, 特征映射为 $h_{\alpha}:(\Delta^{n},\dot{\Delta}^{n})\to (X,A)$, 并且 $u_{\alpha}$是 $A$中从 $e_0$到 $h_{\alpha}(e_0)$的某一道路同伦类, $\epsilon_{\alpha}=h_{\alpha *}(\epsilon_{n})\in \pi_{n}(X,A,h_{\alpha}(e_0))$, 则同伦类 $\epsilon_{\alpha}'=\tau_{u_{\alpha}}'(\epsilon_{\alpha})$构成了 $\pi_{n}(X,A)$作为模的一组基.
+        \end{theorem}
+
+        进一步, 有 
+        \begin{theorem}
+            同伦类 $\epsilon_{\alpha}'$生成 $\pi_{n}(X,A)$, 作为带 $\pi_{1}(A)$作用的群.
+        \end{theorem}
+
+        \begin{corollary}
+            \label{cor:attaching cells}
+            映射 $\pi_{n-1}(A)\to \pi_{n-1}(X)$是满射. 其核是由同伦类 $\partial_* (\epsilon_{\alpha}')$生成的算子子群(i.e. 该子群在 $\Pi$作用下封闭).
+        \end{corollary}
+
+%        \includepdf[pages=-]{Attaching Cells.pdf}
+%
+%        \setcounter{page}{3}
+
+        假设 $X= A \vee \Sigma^{r}$ ,其中 $\Sigma^{r}$是一束 $r$-球面. 则 $A$是 $X$的形变收缩, 因此 $(X,A)$的同伦正合列可拆分成一族可裂的 $\pi_1(A)$-模的短正合列 
+        \begin{equation*}
+          0\to \pi_{r}(A)\to \pi_{r}(X)\to \pi_{r}(X,A)\to 0.
+        \end{equation*}
+        因为 $(X,A)$是 $(n-1)$-连通的, 我们有 
+        
+        \begin{theorem}
+            \label{thm:a freely attached base, used below}
+            若 $A$是连通空间, $X=A\vee \Sigma^{n}$, 其中 $\Sigma^{n}=\bigvee_{\alpha \in J} S^{n}_{\alpha}$是一束 $n$-球面 $(n\ge 2)$, 则映射 $\pi_{r}(A)\to \pi_{r}(X)$当 $r<n$时是同构. 进一步, 有 $\pi_{1}(A)$-模的同构 
+            \begin{equation*}
+              \pi_{n}(X)\simeq \pi_{n}(A)\oplus \pi_{n}(X,A)
+            \end{equation*}
+            且 $\pi_{n}(X,A)$是自由模. $\pi_{n}(S^{n}_{\alpha})$的生成元在映射 
+            \begin{equation*}
+              \pi_{n}(S^{n}_{\alpha})\to \pi_{n}(\Sigma^{n})\to \pi_{n}(X)
+            \end{equation*}
+            下的像构成了 $\pi_{n}(X)$的一个子模的一组基, 且在该映射下被同构地映到 $\pi_{n}(X,A)$.
+        \end{theorem}  
+
+
+        \begin{theorem}
+            \label{thm:spaces with prescribed homotopy groups}
+            设 $\{\pi_{k}\}_{k=1}^{\infty}$是一列群, 其中 $k\ge 2$时 $\pi_{k}$交换且其上有 $\pi_1$的作用. 则存在一个连通的CW复形 $X$及一族映射 $\phi_{k}:\pi_{k}(X)\to \pi_{k}$ 使得对于每个 $\xi \in \pi_1(X), \alpha \in \pi_{k}(X)$, 成立
+            \begin{equation*}
+              \phi_{k}(\tau_{\xi}(\alpha))=\phi_{1}(\xi)\cdot \phi_{q}(\alpha).
+            \end{equation*}
+        \end{theorem}
+
+        \begin{proof}
+            首先通过贴胞腔构造新的生成元; 再通过贴胞腔构造新的关系.
+
+            令 $A_1$是 $\pi_1$的一组生成元, 令 $X_1= \bigvee _{\alpha \in A_1}S^{1}_{\alpha}$ 是一束以 $A_1$作为指标集的圆. 则 $\pi_1(X_1)$是自由群, $\pi_1 (S^{1}_{\alpha})$的生成元的像 $\sigma_{\alpha}\in \pi_1 (X_1)$构成一组基. 定义同态 $\psi_1:\pi_1(X_1)\to \pi_1$, $\psi_1(\sigma_{\alpha})=\alpha, \forall \alpha \in A_1$. 因为 $A_1$生成 $\pi_1$, 所以 $\psi_1$是满射.
+
+            假设 $X_{n}$是一个 $n$维的CW复形 $(n\ge 1)$, 且 $\phi_{i}':\pi_{i}(X_{n})\to \pi_{i}, (1\le i\le n-1)$ 是同构, 且 $\psi_{n}:\pi_{n}(X_{n})\to \pi_{n}$ 是满射. 令 $B_{n}$是 $\operatorname{Ker}\psi_{n}$的一组作为 $\pi_1(X_{n})$-模的生成元. 令 $\Sigma_{n}=\bigvee_{\beta \in B_{n}}S^{n}_{\beta}$ 是一束以 $B_{n}$ 作为指标集的 $n$-球面, $h_{n}:\Sigma_{n}\to X_{n}$是使得 $h_{n}\mid S^{n}_{\beta}$所在同伦类为 $\beta\in \pi_{n}(X_{n})$. 令 $X_{n+1}'$是 $h_{n}$的映射锥. 由推论 \ref{cor:attaching cells} 知 $\pi_{n}(X_{n})\to \pi_{n}(X_{n+1}')$ 是满射, 其核为 $B_{n}$生成的子群. 因此诱导了同构 $\phi_{n}':\pi_{n}(X_{n+1}')\to \pi_{n}$. 进一步, 若 $i<n$, 映射 $\pi_{i}(X_{n})\to \pi_{i}(X_{n+1}')$ 是一个同构, 所以 $\phi_{i}'$诱导了同构, 继续记为 $\phi_{i}':\pi_{i}(X_{n+1}')\simeq \pi_{i}$.
+
+            令 $A_{n+1}$ 是模 $\pi_{n+1}$的一组生成元. 令 $\Sigma_{n+1}'=\bigvee_{\alpha \in A_{n+1}}S_{\alpha}^{n+1}$是一束由 $A_{n+1}$作为指标集的 $(n+1)$-球面. 令 $X_{n+1}=X_{n+1}'\vee \Sigma_{n+1}'$. 由定理 \ref{thm:a freely attached base, used below} 知 
+            \begin{enumerate}
+                \item 映射 $\pi_{i}(X'_{n+1})\to \pi_{i}(X_{n+1})$当 $i\le n$时是同构 
+                \item 映射 $i:\pi_{n+1}(X'_{n+1})\to \pi_{n+1}(X_{n+1})$ 是单射 
+                \item $\pi_{n+1}(X_{n+1})$ 是 $i$的像与由 $\sigma_{\alpha}$生成的子模 $F$的直和, 其中 $\sigma_{\alpha}$是由嵌入映射 $S^{n+1}_{\alpha}\hookrightarrow X_{n+1}$所代表的同伦类.
+            \end{enumerate}
+
+            因此算子同构 $\phi_{i}':\pi_{i}(X_{n+1}')\simeq \pi_{i}$ 诱导了算子同构 $\phi_{i}:\pi_{i}(X_{n+1})\simeq \pi_{i}, \forall i\le n$. 令 $\theta:\pi_{n+1}(X_{n+1}')\to \pi_{n+1}$ 是任一算子同态, 则存在算子同态 $\psi_{n+1}:\pi_{n+1}(X_{n+1})\to \pi_{n+1}$如下定义 
+            \begin{equation*}
+              \begin{aligned}
+              \psi_{n+1}\circ i & = \theta, \\
+              \psi_{n+1}(\sigma_{\alpha}) &= \alpha ;
+              \end{aligned}
+            \end{equation*}
+            因为 $A_{n+1}$ 生成 $\pi_{n+1}$, 所以 $\psi_{n+1}$ 是一个满射.
+
+            这样我们归纳地构造了一列 $\{X_{n}\}$. 令 $X=\bigcup _{n=1}^{\infty}X_{n}$, 则 $X$是一个CW复形, 其 $n$维骨架为 $X_{n}$. 因为 $\pi_{n}(X_{n+1})\to \pi_{n}(X)$ 是同构, 同构 $\phi_{n}:\pi_{n}(X_{n+1})\to \pi_{n}$ 诱导了同构 $\pi_{n}(X)\simeq \pi_{n}$.
+        \end{proof}
+
+        对任一空间 $Y$, 取 $\pi_{i}=\pi_{i}(Y)$, 则
+
+        \begin{theorem}
+            \label{thm:CW approx}
+            令 $Y$是连通空间, 则存在连通的CW复形 $X$及映射 $f:X\to Y$使得 $f_*:\pi_{n}(X)\simeq \pi_{n}(Y)$对所有 $n$成立.
+        \end{theorem}
+
+        这一系列推理可以被推广为 
+        
+        \begin{theorem}
+            令 $A, Y$是连通空间, $f_0:A\to Y$, $n\in \mathbb{Z}_{\ge 0}$. 则存在相对CW复形 $(X,A)$不含 $\le n$维的胞腔, 及 $f_0$的延拓 $f:X\to Y$, 使得
+            \begin{enumerate}
+                \item 映射 $\pi_{q}(A)\to \pi_{q}(X)$ 当 $q<n$时是同构, 当 $q=n$时是满射;
+                \item 同态 $\pi_{q}(f):\pi_{q}(X)\to \pi_{q}(Y)$ 当 $q=n$时是单态, 当 $q>n$时是满态.
+            \end{enumerate}
+        \end{theorem}
+
+        \begin{proof}
+            将群 $\pi_{q}$定义为 
+            \begin{equation*}
+              \pi_{q}=
+              \begin{cases} \pi_{q}(A) & q<n,  \\ 
+                \operatorname{Im}\pi_{n}(f_0) & q=n, \\
+                \pi_{q}(Y) & q>n.
+              \end{cases}
+            \end{equation*}
+
+            令 $X_{n}=A$, $f_{n}=f_0:X_{n}\to Y$, 并令 
+            \begin{equation*}
+              \phi_{q}':\pi_{q}(X_{n})\to \pi_{q}\quad q<n
+            \end{equation*}
+            是恒等映射, 同时 
+            \begin{equation*}
+              \psi_{n}:\pi_{n}(X_{n})\to \pi_{n}
+            \end{equation*}
+            是由 $\pi_{n}(f_0)$诱导的同态. 所以 $\phi_{q}'$当 $q<n$时是同态, $\psi_{n}$是满同态.
+        \end{proof}
+
+        将 $Y$取为单点, 得到
+
+        \begin{corollary}
+            \label{thm:eliminate higher homotopy by attaching cells}
+            令 $A$是连通空间, $n$是非负整数. 则存在一个相对CW复形 $(X,A)$使得 
+            \begin{enumerate}
+                \item 内射 $\pi_{i}(A)\to \pi_{i}(X)$当 $i<n$时是同构;
+                \item 对 $i\ge n$成立 $\pi_{i}(X)=0$.
+            \end{enumerate}
+            特别地, $X$可由在 $A$上粘贴 $\ge n+1$维的胞腔得到.
+        \end{corollary}
+
+        对空间偶, 也可以用CW复形对其逼近 
+
+        \begin{theorem}
+            令 $(X,A)$是空间偶, $g:L\to A$是一个CW逼近. 那么存在一个CW复形偶 $(K,L)$及弱同伦等价 $f:(K,L)\to (X,A)$延拓 $g$. 若 $(X,A)$是 $m$-连通的, 则可以选取适当的 $K$使其 $m$-骨架包含在 $L$中.
+        \end{theorem}
+
+    \section{Extension and Obstruction Theory}
+        内容取自\cite{Whitehead1978} 5.4-5.6节.
+
+        介绍一类被称为\emph{非球面}(Aspherical)空间的例子. 称空间 $X$是非球面的, 若其连通, 且 $\pi_{n}(X)=0, \forall n\ge 2$. 若 $X$存在万有覆盖 $\tilde{X}$, 则 $X$的非球面性等价于 $\tilde{X}$的弱可缩性. 因此
+
+        \begin{proposition}
+            若群 $G$纯不连续地作用在 $\mathbb{R}^{n}$上, 则其轨道空间 $\mathbb{R}^{n}/G$是非球面的.
+        \end{proposition}
+
+        \begin{corollary}
+            除球面及射影平面外的所有闭曲面均是非球面的.
+        \end{corollary}
+
+        \begin{theorem}
+            \label{thm:maps in aspherical spaces}
+            若 $X$是非球面空间,  $K$是连通CW复形, 则对应 $f\to f_{*}$诱导了 $[K,k_{0};X,x_0]$与 $\operatorname{Hom}(\pi_1(K), \pi_1(X))$间的一一对应.
+        \end{theorem}
+
+        \begin{proof}
+            不妨设 $K$的零维骨架仅包含一点, 且 $r$胞腔的粘贴映射将 $\Delta^{r}$的诸顶点映到其基点 $k_0$.
+
+            取定 $\eta:\pi_1(K)\to \pi_1(X)$, 欲构造 $f:(K,k_0)\to (X,x_0)$使得 $f_*=\eta$. 对 $X$的每个一维胞腔 $E^{1}_{\alpha}$, 其特征映射为 $h_{\alpha}:(\Delta^{1},\dot{\Delta}^{1})\to (K,k_0)$, 映射 $h_{\alpha}$代表某 $\xi_{\alpha}\in \pi_1(K)$. 令 $f_{\alpha}:(\Delta^{1},\dot{\Delta}^{1})\to (X,x_0)$是 $\eta(\xi_{\alpha})\in \pi_1(X)$的某一代表元. 则存在映射 $f_1:(K_1,k_0)\to (X,x_0)$使得 $f_1\circ h_{\alpha}=f_{\alpha}$(为什么?). 从而若 $i:\pi_1(K)\to \pi_1(K)$是嵌入诱导的同态, 则 $f_{1*}=\eta\circ i$.
+
+            现在假设 $f_1$已被扩张到映射 $f_{r}:K_{r}\to X$. 若 $E^{r+1}_{\beta}$是 $K$的一个 $(r+1)$-胞腔, 特征映射为 $h_{\beta}:(\Delta^{r+1},\dot{\Delta}^{r+1})\to (K_{r+1},K_{r})$, 则 $f_{r}\circ h_{\beta}|\dot{\Delta}^{r+1}$代表了某 $c_{\beta}\in \pi_{r}(X,x_0)$. 若 $c_{\beta}=0$, 则映射 $f_{r}\circ h_{\beta}|\dot{\Delta}^{r+1}$可以被延拓到 $g_{\beta}:\Delta^{r+1}\to X$, 且 $f_{r}|\dot{E}^{r+1}_{\beta}$有延拓 $g_{\beta}\circ h_{\beta}:E_{\beta}^{r+1}\to X$. 因此, 若所有的 $c_{\beta}=0$, 则存在映射 $f_{r+1}:K_{r+1}\to X$是 $f_{r}$的扩张.
+
+            若 $r>1$, 依假设 $\pi_{r}(X)=0$, 所以 $c_{\beta}=0$. 现设 $r=1$. 则 $h_{\beta}|\dot{\Delta}^{2}:\dot{\Delta}^{2}\to K_1$代表了某 $\xi \in \pi_{1}(K_1)$, 且由于 $h_{\beta}|\dot{\Delta}^{2}$有扩张 $h_{\beta}:\Delta^{2}\to K$, $i(\xi)=0$. 所以 $c_{\beta}=f_{1*}(\xi)=\eta(i(\xi))=0$. 因此在任何情况下都有 $c_{\beta}=0$.
+
+            映射 $f_{r}:K_{r}\to X$合起来给出 $f:(K,k_0)\to (X,x_0)$, 并且 $f_{*}\circ i= f_{1*}=\eta\circ i$. 因为由嵌入诱导的同态 $i:\pi_1(K_1)\to \pi_1(K)$ 是满射, 有 $f_{*}=\eta$.
+
+            现在假设 $f_0, f_1:(K,k_0)\to (X,x_0)$诱导了相同的同态 $f_{0*}=f_{1*}:\pi_{1}(K)\to \pi_1(X)$. 令 $L_{r}$ 是 $I\times K$的子复形  $0\times K \cup 1\times K \cup I\times K_{r-1}$. 定义 $F_{1}:L_{1}\to X$如下:
+            \begin{align*}
+                F_1(0, x) &= f_0(x) && (x \in K); \\
+                F_1(1, x) &= f_1(x) && (x \in K); \\
+                F_1(t, k_0) &= x_0 && ((t, k_0) \in I \times K_{r-1}).
+            \end{align*}
+            
+            对每个 $K$中的 $1$-胞腔 $E_{\alpha}^{1}$, 其特征映射 $h_{\alpha}$ 代表了某 $\xi_{\alpha} \in \pi_1(K)$, 且 $f_{0*}(\xi_{\alpha})=f_{1*}(\xi_{\alpha})$. 因此存在 $f_0\circ h_{\alpha}$到 $f_1\circ h_{\alpha}$的相对 $\dot{\Delta}^{1}$的同伦 $F_{\alpha}$. 由\cite{Whitehead1978}第二章引理(1.3)(这个引理大概是说, 胞腔上的同伦形变可以延拓到全空间上), 存在 $f_0|K_1$到 $f_1|K_1$的同伦 $F_{2}:(I\times K_{1},I\times K_{0})\to (X,x_0)$, 使得 $F_{2}\circ (1\times h_{\alpha})=F_{\alpha}$. 将 $F_2$延拓到 $L_2$上, 使得 $F_2(t,x)=f_{t}(x)$对 $x\in K , t=0,1$成立. 则 $F_2$是 $F_1$的一个延拓.
+
+            假设对 $r\ge 2$已经有 $F_1$的延拓 $F_{r}:L_{r}\to X$. 对 $K$的每个 $r$-胞腔 $E^{r}_{\gamma}$, 映射
+            \begin{equation*}
+                F_r \circ (1 \times h_{\gamma}) \big|{(I \times \Delta r)}^\cdot
+            \end{equation*}
+            代表了 $\pi_{r}(X)=0$中的某同伦类. 因此该映射有延拓 $F_{\gamma}:I\times \Delta^{r}\to X$. 再利用一次\cite{Whitehead1978}第二章引理(1.3), 存在映射 $F_{r+1}:I\times K_{r}\to X$使得 $F_{r+1}\circ(1\times h_{\gamma})=F_{\gamma}$. 映射 $F_{r+1}$可被延拓到 $F_{r+1}:L_{r+1}\to X$, 这显然是 $F_{r}$的一个延拓. $F_{r}$合起来给出映射 $F: I\times K\to X$延拓 $F_1$, 因此其是 $f_0$到 $f_1$的相对于 $k_0$的一个同伦形变. 这说明 $[f_0]=[f_1]\in [K,k_0; X,x_0]$.
+        \end{proof}
+
+        \begin{corollary}
+            $K$到 $X$的自由同伦类群与 $\pi_1(K)$到 $\pi_1(X)$同态的共轭类群有一一对应.
+        \end{corollary}
+
+        \begin{proof}
+            对 $(X,x_0)$中回路 $u$, 若 $f_0$与 $f_1$沿 $u$自由同伦, 则 $f_{1*}(\xi)=[u]^{-1}f_{0*}(\xi)[u]$.
+        \end{proof}
+
+        \begin{corollary}
+            若非球面空间的基本群同构, 则它们有相同的弱同伦型.
+        \end{corollary}
+
+        \begin{corollary}
+            若 $X$和 $Y$是具有同构的基本群的非球面空间, 则对任意群 $G$, $H_{q}(X;G)\simeq H_{q}(Y;G)$, $H^{q}(X;G)\simeq H^{q}(Y,G)$.
+        \end{corollary}
+
+        在定理(\ref{thm:maps in aspherical spaces})的证明中, 为了将映射从CW复形 $K$的子复形延拓到全空间上, 我们逐胞腔地将映射从低维骨架延拓到高一维的骨架上; 该映射在胞腔的边界上已经定义, 且其与粘接映射的复合给出了一个超球面到全空间的映射, 代表了后者的同伦群中某同伦类. 该同伦类的消灭是映射可被延拓到整个胞腔上的充要条件.
+
+        以此为动机, 研究称为障碍理论(Obstruction Theory)的工具. 以下假设 $(X,A)$是CW复形偶, $f:X_{n}\to Y$是一映射, $Y$是 $n$-simple的, 即 $\pi_1(Y)$ 在 $\pi_{k}(Y), 1\le k\le n$上的作用平凡.
+
+        \begin{definition}
+            映射 $f$的\emph{延拓障碍}(obstruction of extending) $c^{n+1}(f)\in \Gamma^{n+1}(X,A;\pi_{n}(Y))$是一个胞腔上链, 使得对每个 $(X,A)$的 $(n+1)$-胞腔 $e_{\alpha}$, 若记其特征映射为 $h_{\alpha}: (\Delta^{n+1},\dot{\Delta}^{n+1})\to (X_{n+1},X_{n})$, 则 $c^{n+1}(f)$ 将 $e_{\alpha}$映到映射 $f\circ h_{\alpha}|\dot{\Delta}^{n+1}: \dot{\Delta}^{n+1}\to Y$所在的同伦类 $c_{\alpha}\in \pi_{n}(Y)$.
+        \end{definition}
+
+        这是通过在每个胞腔上的作用给了障碍类一个``局部''的刻画. 我们也可以给障碍类一个整体定义. 考虑
+        \[
+            \Gamma_{n+1}(X, A) = H_{n+1}(X_{n+1}, X_n) \xleftarrow{\rho} \pi_{n+1}(X_{n+1}, X_n) \xrightarrow{\partial_*} \pi_n(X_n) \xrightarrow{f_*} \pi_n(Y),
+        \]
+        其中 $\rho$ 是 Hurewicz 映射,$\partial_*$ 是 $(X_{n+1}, X_n)$ 的同伦序列的边界算子. 根据相对 Hurewicz 定理,$\rho$ 是一个满同态,其核为 $\omega'_{n+1}(X_{n+1}, X_n)$.根据\cite{Whitehead1978}第 IV 章定理 (3.1),$\partial_*$ 将 $\omega'_{n+1}(X_{n+1}, X_n)$ 映射到 $\omega_n(X_n)$ 中.由于 $f_*(\omega_n(X_n)) \subseteq \omega_n(Y) = 0$(假设了 $Y$是 $n$-simple 的),我们看到 $f_* \circ \partial_*$ 消去了 $\rho$ 的核,因此 $f_* \circ \partial_* \circ \rho^{-1}$ 是一个定义良好的同态,这很容易验证为上面构造的同态 $c^{n+1}$.
+
+        障碍上链有如下性质:
+        \begin{proposition}
+            对于 $(X, A)$ 的每个 $(n+1)$-胞腔 $E_{\alpha}^{n+1}$,$f \mid \dot{E}_{\alpha}^{n+1}$ 当且仅当 $c^{n+1}(e_{\alpha}^{n+1}) = 0$ 时可以扩展到 $E_{\alpha}^{n+1}$. 
+        \end{proposition}
+            
+        \begin{proposition}
+            \label{prop:existence of extension on skeleton}
+            映射 $f : X_n \to Y$ 当且仅当 $c^{n+1}(f) = 0$ 时可以扩展到 $X_{n+1}$. 
+        \end{proposition}
+            
+        \begin{proposition}
+            如果 $(X', A')$ 是相对 CW-复形,$g : (X', A') \to (X, A)$ 是一个胞腔映射,则 $c^{n+1}(f \circ (g \mid _{X'_n})) = g^\# c^{n+1}(f)$. 
+        \end{proposition}
+            
+        \begin{proposition}
+            如果 $Y'$ 是一个 $n$-单纯空间且 $h : Y \to Y'$,则 $c^{n+1}(h \circ f) = h_* \circ c^{n+1}(f)$. 
+        \end{proposition}
+            
+        \begin{proposition}
+            如果 $f_0 \simeq f_1 : X_n \to Y$,则 $c^{n+1}(f_0) = c^{n+1}(f_1)$. 
+        \end{proposition}
+        
+        下面的命题解释了将 $c^{n+1}$称为``障碍类''为什么是合理的.
+
+        \begin{theorem}
+            \label{thm:obstruction cochain is closed}
+            障碍上链 $c^{n+1}(f)$是闭链.
+        \end{theorem}
+
+        \begin{proof}
+            考虑以下交换图表
+            \begin{equation*}
+                \begin{tikzcd}
+                    H_{n+2}(X_{n+2}, X_{n+1}) \arrow[leftarrow]{r}{\rho_1} \arrow{d}{\partial_1} & \pi_{n+2}(X_{n+2}, X_{n+1}) \arrow{d}{\partial_2} \\
+                    H_{n+1}(X_{n+1}) \arrow[leftarrow]{r}{\rho} \arrow{d}{i_1} & \pi_{n+1}(X_{n+1}) \arrow{d}{i_2} \\
+                    H_{n+1}(X_{n+1}, X_n) \arrow[leftarrow]{r}{\rho_2} & \pi_{n+1}(X_{n+1}, X_n) \arrow{r}{\partial_3} & \pi_n(X_n) \arrow{r}{f_*} & \pi_n(Y)
+                    \end{tikzcd}
+            \end{equation*}
+            其中由 $\rho$ 表示的同态是 Hurewicz 映射,由 $\partial$ 表示的是适当的同调或同伦序列的边缘算子,由 $i$ 表示的是嵌入.
+
+            
+
+            然后
+            \begin{equation*}
+              \begin{aligned}
+                (-1)^{n+1} (\delta c^{n+1}) \circ \rho_1 &= (c^{n+1} \circ i_1 \circ \partial_1) \circ \rho_1 \\
+                & = f_* \circ \partial_3 \circ \rho_2^{-1} \circ i_1 \circ \partial_1 \circ \rho_1 \\
+                & = f_* \circ \partial_3 \circ \rho_2^{-1} \circ \rho_2 \circ i_2 \circ \partial_2 \\
+                & = f_* \circ \partial_3 \circ i_2 \circ \partial_2;
+              \end{aligned}
+            \end{equation*}
+            但是 $i_2$ 和 $\partial_3$ 是复形偶 $(X_{n+1}, X_n)$ 的同伦序列中紧接着的两个同态,因此 $\partial_3 \circ i_2 = 0$.因此 $(\delta c^{n+1}) \circ \rho_1 = 0$；因为 $\rho_1$ 是满同态,$\delta c^{n+1} = 0$.
+        \end{proof}
+
+        接下来要问的是同伦延拓的问题. 即, 若 $f_0, f_1\in F(X,Y)$已在 $A$上同伦, 何时能将该同伦延拓到 $X$上? 令 $(\hat{X}, \hat{A})=I\times (X,A)$, 则 $(\hat{X}, \hat{A})$是CW复形偶, 其 $n$维骨架为 $\hat{X}_{n}=I\times X_{n-1}\cup \dot{I}\times X_{n}$. 映射 $F:\hat{X}_{n}\to Y$ 包含一对映射 $f_0, f_1:X_{n}\to Y$ 以及 $f_0|_{X_{n-1}}$到 $f_1|_{X_{n-1}}$的同伦 $G:I\times X_{n-1}\to Y$. $X_{n-1}$到 $X_{n}$的同伦延拓问题就变成了映射 $F$的延拓问题. 将 $I$ 视为一个具有两个0胞腔 $\{0\}$ 和 $\{1\}$, 以及一个1胞腔 $\mathbf{i}$, 其边界 $\partial \mathbf{i} = \{1\} - \{0\}$ 的CW复形.
+        \begin{definition}
+            $(f_0,f_1)$ 相对于 $G$ 的\emph{差别上链}(difference cochain)定义为上链 $d^n = d^n(f_0, G, f_1) = d^n(F) \in \Gamma^n(X, A; \pi_n(Y))$, 使得
+            $$
+            d^n(c) = (-1)^{n+1} (F)(\mathbf{i} \times c)
+            $$
+            对于所有 $c \in \Gamma_n(X, A)$成立. 
+        \end{definition}
+        一个重要的特例是 $f_0$ 和 $f_1$ 在 $X_{n-1}$ 上一致且同伦 $G$ 是静止的; 在这种情况下,我们将 $d^n(f_0, G, f_1)$ 简写为 $d^n(f_0, f_1)$.
+
+        差别上链也可以由它在诸胞腔上的作用唯一决定. 令 $E_{\alpha}^n$ 是 $(X, A)$ 的一个 $n$-胞腔,且其特征映射为 $h_{\alpha}$,那么 $I \times \Delta^n$ 是一个定向的 $(n+1)$-胞腔,其边界 $(I \times \Delta^n) \cdot$ 是一个定向的 $n$-球面,映射 $F$ 与映射 $1 \times h_{\alpha}$ 在该球面上的限制的复合映射表示差别上链 $d^n(F)$ 在有向胞腔 $e_{\alpha}^n$ 上的值的 $(-1)^n$ 倍.
+
+        与障碍类类似, 差别上链也有如下性质:
+        \begin{proposition}
+            对于每个 $n$-胞腔 $E_{\alpha}^n$, $F|_{(I \times E_{\alpha}^n)^\cdot}$ 可以扩展到 $I \times E_{\alpha}^n$ 当且仅当 $d^n(e_{\alpha}^n) = 0$.
+            \end{proposition}
+            
+            \begin{proposition}
+            当且仅当 $d^n = 0$ 时,存在 $f_0$ 到 $f_1$ 的同伦延拓 $G$.
+            \end{proposition}
+            
+            \begin{proposition}
+            如果 $(X', A')$ 是相对CW复形, $g : (X', A') \to (X, A)$ 是一个胞腔映射, 并且如果 $g' : \hat{X}_n' \to \hat{X}_n$ 是 $1 \times g$ 的限制, 那么 $d^n(F \circ g') = g^\# d^n(F)$.
+            \end{proposition}
+            
+            \begin{proposition}
+            如果 $Y'$ 是一个 $n$-单纯空间且 $h : Y \to Y'$,那么 $h_* \circ d^n(F) = d^n(h \circ F)$.
+            \end{proposition}
+            
+            \begin{proposition}
+            如果 $F \simeq F' : \hat{X}_n \to Y$,那么 $d^n(F) = d^n(F')$.
+            \end{proposition}
+
+            一般来说, 差别上链不是闭链. 不过我们有边缘公式
+
+            \begin{theorem}
+                \label{thm:coboundary of difference cochain}
+                差别上链的上边缘满足
+                \begin{equation*}
+                  \delta d^{n}(f_0,G,f_1)=c^{n+1}(f_1)-c^{n+1}(f_0).
+                \end{equation*}
+            \end{theorem}
+
+            \begin{proof}
+                若 $c\in \Gamma_{n+1}(X,A)$则 
+                \begin{equation*}
+                  \delta d^{n}(c)=(-1)^{n}d^{n}(\partial c)=c^{n+1}(F)(\mathbf{i}\times \partial c).
+                \end{equation*}
+                但是由定理\ref{thm:obstruction cochain is closed}, $c^{n+1}(F)$是上闭链, 因此 
+                \begin{equation*}
+                  \begin{aligned}
+                  0 & =(-1)^{n+1}\delta c^{n+1}(F)(\mathbf{i}\times c)= c^{n+1}(F)(\partial (\mathbf{i}\times c)) \\
+                  & =c^{n+1}(F)(1\times c-0\times c-\mathbf{i}\times \partial c)
+                  \end{aligned}
+                \end{equation*}
+                但是显见
+                \begin{equation*}
+                  c^{n+1}(F)(t\times c)=c^{n+1}(f_{t})(c)\quad (t=0,1)
+                \end{equation*}
+                整理后就得到边缘公式.
+            \end{proof}
+
+            除了将 $n$维骨架上的映射(或同伦)延拓到 $n+1$维骨架上的问题, 还有很多不同的延拓问题. 比如, 稍微放宽延拓的条件, 只要求延拓后的映射在低一维的骨架上与原映射吻合, 这时什么条件能保证延拓存在?
+
+            考虑 $CW$复形 $K$, 其包含一个 $0$-胞腔 $*$即其基点; 一个 $(n-1)$-胞腔 $S$, $S$是 $(n-1)$-球面, $\dot{S}=*$; 两个 $n$-胞腔 $E_0,E_1$满足 $\dot{E}_{0}=\dot{E}_{1}=S$. 选择 $n$ 和 $(n-1)$-胞腔的定向 $e_0$,$e_1$,$s$,使得 $\partial e_0 = \partial e_1 = s$.那么 $K$ 是一个 $n$-球面,且 $e_0 - e_1$ 是 $K$ 的一个定向.(如果 $n = 1$,这种描述需要稍作修改; 有两个 0-胞腔,$\ast$ 和 $E^0$,且 $S$ 是 0-球面 $\{\ast\} \cup E^0$).
+
+            \begin{lemma}
+                \label{lem:lemma5.10}
+                令 $f:(E_1, \ast)\to (X, \ast)$及 $\alpha\in \pi_{n}(X)$. 则 $f$有延拓 $g:(K,\ast)\to (X,\ast)$是 $\alpha$的代表元.
+            \end{lemma}
+
+            在 $K$上再附加一个 $n$-胞腔 $E_2$满足 $\dot{E}_{2}=S$, 取 $E_2$的定向 $e_2 $使得 $\partial e_2=s$. 这样得到的复形记为 $L$. 则 $K_0=E_1\cup E_2$, $K_1=E_0\cup E_2$和 $K_2=E_0\cup E_1$均为球面, 它们的定向分别为 $s_0=e_1-e_2, s_1=e_0-e_2, s_2=e_0-e_1$.
+
+            \begin{lemma}
+                \label{lemma:lemma5.11}
+                令 $f:(L,*)\to (X,*)$, 并令 $\alpha _{i}\in \pi_{n}(X)$是由 $f\mid K_{i}$表示的同伦类, 定向为 $s_{i}$. 则 $\alpha_1=\alpha_2+\alpha_0$.
+            \end{lemma}
+
+            \begin{proof}
+                注意到若命题对 $L=X,f=\operatorname{id}$成立, 则由同伦群的函子性知道命题在一般情形下也成立. 故接下来只对该特殊情形证明.
+
+                若 $n=1$, $1$-胞腔的特征映射可被视作 $X$中从基点 $*$到 $S$上另一点 $E_0$的道路. 令 $\xi_{i}$是对应于 $1$-胞腔 $E_{i}$的道路同伦类. 则 $\alpha_0=\xi_1\xi_2^{-1}$, $\alpha_1=\xi_0\xi_2^{-1}$, $\alpha_2=\xi_0\xi_1^{-1}$, 所以 $\alpha_2\alpha_0=\xi_0\xi_1^{-1}\xi_1\xi_2^{-1}=\xi_0\xi_2^{-1}=\alpha_1$.
+
+                现在假设 $n\ge 2$. 因为 $L$是 $(n-1)$-连通的, 所以Hurewicz映射 $\rho:\pi_{n}(L)\to H_{n}(L)$是同构. 因为 $H_{n}(L_{n-1})=0$, 所以映射 $i:H_{n}(L)\to H_{n}(L_{n},L_{n-1})$是单射. 因此 $i\circ \rho:\pi_{n}(L)\to H_{n}(L_{n},L_{n-1})$是单射. 但是 
+                \begin{equation*}
+                  i \rho(\alpha _{t})=s_{t}\quad (t=0,1,2)
+                \end{equation*}
+                且 $s_1=s_2+s_0$. 从而 $\alpha_1=\alpha_2+\alpha_0$.
+            \end{proof}
+
+            \begin{proposition}
+                \label{prop:5.12}
+                令 $F_0:0\times X_{n}\cup I\times X_{n-1}\to Y$ 是一映射, $d \in \Gamma^{n}(X,A;\pi_{n}(Y))$. 则 $F_0$ 存在延拓 $F:\hat{X_{n}}\to Y$ 使得 $d^{n}(F)=d$.
+            \end{proposition}
+
+            \begin{proof}
+                利用差别上链的局部描述, 在引理 \ref{lem:lemma5.10} 中取 $K=(I\times \Delta^{n})^{\cdot}$, $E_{0}\equiv 0\times \Delta^{n}\cup I\times \dot{\Delta}^{n-1}$, $E_1=1\times \Delta^{n}$. 对每个 $n$-胞腔 $E_{\alpha}^{n}$, 设其特征映射为 $h_{\alpha}$, 则由引理 \ref{lem:lemma5.10} 知 $1\times h_{\alpha}|E_0$ 有延拓 $F_{\alpha}:K\to X$, 且其同伦类为 $(-1)^{n}d(e_{\alpha})$. 所以映射 $F_{\alpha}\circ(1\times h_{\alpha}^{-1})|(I\times E_{\alpha}^{n})^{\cdot}$ 是良定的, 合并起来就给出了 $F$的一个延拓.
+            \end{proof}
+
+            \begin{proposition}
+                \label{prop:5.13}
+                令 $F',F'':\hat{X}_{n}\to Y$满足 $F'(1,x)=F''(0,x), \forall x\in X_{n}$, 并令 $F:\hat{X}_{n}\to Y$ 满足, 对于 $(t,x)\in \hat{X}_{n}$
+                \begin{equation*}
+                  F(t,x)=\begin{cases} F'(2t,x) & 0\le t\le \frac{1}{2}, \\ F''(2t-1,x) & \frac{1}{2}\le t\le 1. \end{cases}
+                \end{equation*}
+                则 $d^{n}(F)=d^{n}(F')+d^{n}(F'')$.
+            \end{proposition}
+
+            \begin{theorem}
+                \label{thm:obstruction cohomologous to zero}
+                令 $f:X_{n}\to Y$. 则 $f|_{X_{n-1}}$ 能被延拓到 $X_{n+1}$上当且仅当 $c^{n+1}(f)\sim 0$.
+            \end{theorem}
+
+            \begin{proof}
+                若 $f|X_{n-1}$有延拓 $f':X_{n+1}\to Y$, 定义 $F:\hat{X}_{n}\to Y$ 使得
+                \begin{equation*}
+                    \begin{array}{ll}
+                        F(0, x)=f^{\prime}(x), \quad F(1, x)=f(x) & \left(x \in X_n\right) \\
+                        F(t, x)=f(x)=f^{\prime}(x) & \left(x \in X_{n-1}, t \in I\right) .
+                    \end{array}
+                \end{equation*}
+                则由命题 \ref{thm:coboundary of difference cochain},
+                \begin{equation*}
+                  \delta d^{n}(F)=c^{n+1}(f)-c^{n+1}(f'|X_{n}).
+                \end{equation*}
+                但是由命题 \ref{prop:existence of extension on skeleton} 知 $c^{n+1}(f'|X_{n})=0$. 所以 $c^{n+1}(f)$ 是上边缘.
+
+                反之, 若 $c^{n+1}(f)=\delta d$, 其中 $d \in \Gamma^{n}(X,A;\pi_{n}(Y))$, 由 \ref{prop:5.12}, 存在映射 $F:\hat{X}_{n}\to Y$ 使得 
+                \begin{equation*}
+                    \begin{array}{ll}
+                        F(0, x)=f(x) & \left(x \in X_n\right), \\
+                        F(t, x)=f(x) & \left(x \in X_{n-1}\right),
+                    \end{array}
+                \end{equation*}
+                且 $d^{n}(F)=-d$. 定义 $f':X_{n}\to Y$为 
+                \begin{equation*}
+                  f'(x)=F(1,x),
+                \end{equation*}
+                由定理 \ref{thm:coboundary of difference cochain}, 
+                \begin{equation*}
+                  c^{n+1}(f)=\delta d=-\delta d^{n}(F)=c^{n+1}(f)-c^{n+1}(f').
+                \end{equation*}
+                因此 $c^{n+1}(f')=0$; 由 \ref{prop:existence of extension on skeleton}, $f'$能被延拓到 $X_{n+1}$上. 但是 $f'|X_{n-1}=f|X_{n-1}$, 所以 $f|X_{n-1}$ 能被延拓到 $X_{n+1}$上.
+            \end{proof}
+
+
+            命题 \ref{prop:existence of extension on skeleton} 给出了映射 $f:A\to Y$在已延拓到 $f_{n}:X_{n}\to Y$的前提下能延拓到 $X_{n+1}$上的充要条件. 但是 $f_{n}$可以以不同的方式延拓到 $X_{n+1}$上, 这促使我们考虑所有 $f$在 $X_{n}$上延拓的障碍集合 $\mathcal{O}_{n+1}'(f)$. 由定理 \ref{thm:coboundary of difference cochain} 知若两个延拓在 $X_{n-1}$上相同, 则它们的 $(n+1)$维障碍是上同调的; 又由定理 \ref{thm:obstruction cohomologous to zero} 知任何上同调于某个障碍的上闭链自身是一个障碍. 因此 $\mathcal{O}_{n+1}'(f)$是上同调类(的代表元)的并, 从而可视为上同调群 $H^{n+1}(X,A;\pi_{n}(Y))$ 的子集 $\mathcal{O}_{n+1}(f)$. $\mathcal{O}_{n+1}(f)$称为 $f$的 $(n+1)$维障碍类集. 则命题 \ref{prop:existence of extension on skeleton} 可重述为: 映射 $f:A\to Y$可被延拓到 $X_{n+1}$上当且仅当 $0 \in \mathcal{O}_{n+1}(f)$.
+
+            下面是一个关于同伦延拓问题的类似于定理 \ref{thm:obstruction cohomologous to zero} 的结果.
+
+            设 $f_0, f_1: X \to Y$ 为映射,并设 $G: I \times A \to Y$ 为 $f_0|_A$ 到 $f_1|_A$ 的同伦.在讨论差别上链时,我们关心的是 $X_n$ 到 $Y$ 的映射,并且我们考虑了乘积复形 $I \times (X, A)$.另一方面,我们处理的是 $X$ 到 $Y$ 的映射,因此可以考虑乘积复形 $(X^*, A^*)$: 
+
+            \begin{equation*}
+              \begin{aligned}
+                (X^*, A^*) &= (I, \dot{I}) \times (X, A)\\
+                &=(I \times X, I \times A \cup \dot{I} \times X)
+              \end{aligned}
+            \end{equation*}
+
+            其胞腔正是形如 $I \times E_n^a$ 的胞腔,其中 $E_n^a$ 为 $(X, A)$ 的 $n$-胞腔.于是 $X_n^* = I \times X_{n-1} \cup \dot{I} \times X$.在这种情况下,映射 $c \to i \times c$ 是链映射,度数为 $1$,它是 $(X, A)$ 和 $(X^*, A^*)$ 的链复形间的同构.而且,如果 $i^*$ 是 $(I, \hat{I})$ 的整系数 $1$-上链,其值在 $1$-胞腔 $i$ 上为 $+1$,则对应 $c \to i^* \times c$ 是上链复形之间的一个同构,度数为 $+1$.所以这时差别上链是一个上闭链,它对应于在该同构下的障碍上闭链.因此我们可以将延拓理论应用于这种特殊情况.
+
+            \begin{theorem}
+                \label{thm:5.15}
+                令 $f_0,f_1:X\to Y$是满足 $f_0|X_{n-1}=f_1|X_{n-1}$的映射. 那么 
+                \begin{enumerate}
+                    \item $d^{n}(f_0,f_1) \in Z^{n}(X,A;\pi_{n}(Y))$;
+                    \item $d^{n}(f_0,f_1)=0$ 当且仅当 $f_0|X_{n}\simeq f_1|X_{n}$ (相对 $X_{n-1}$);
+                    \item $d^{n}(f_0,f_1)\sim 0$ 当且仅当 $f_0|X_{n}\simeq f_1|X_{n}$ (相对 $X_{n-2}$).
+                \end{enumerate}
+            \end{theorem}
+
+            以下假设 $(X,A)$是相对CW复形, $Y$是 $(n-1)$-连通的空间; 当 $n=1$时, 假定 $\pi_1 (Y)$是Abel群. 因此 $Y$是 $n$-单的. $f:A\to Y$是一个映射.
+
+            \begin{theorem}
+                $f:A\to Y$可被延拓为 $g:X_{n}\to Y$. 若 $g_0,g_1:X_{n}\to Y$ 是 $f$的延拓, 则 $g_0|X_{n-1}\simeq g_1|X_{n-1}$ (相对 $A$), 且 $c^{n+1}(g_0)\sim c^{n+1}(g_1)$.
+            \end{theorem}
+
+            \begin{proof}
+                因为 $Y$是连通空间, 所以 $f$可被延拓到 $X_1$上. 假设 $h:X_{r}\to Y$ 是 $f$的一个延拓 ($1\le r\le n-1$). 因为 $Y$是 $(n-1)$-连通的, 所以 $\pi_{r}(Y)=0$, 从而 $c^{r+1}(h)\in \Gamma^{r+1}(X,A;\pi_{r}(Y))=0$. 所以 $h$可以被延拓到 $X_{r+1}$上.
+
+                令 $g_0, g_1:X_{n}\to Y$ 是 $f$的两个延拓. 我们可以将已证明的结果应用到相对CW复形 $(I,\dot{I})\times (X_{n},A)$及映射 $G$上, 其中 $G:I\times A\cup \dot{I}\times X_{n}$定义为 $G(t,x)=g_{t}(x)(t=0,1),G(t,a)=f(a)(a \in A)$. 则由命题 \ref{prop:5.12}, $G$可以延拓为 $\hat{X}_{n}=I\times X_{n-1}\cup \dot{I}\times X_{n}$到 $Y$的映射 $F$. 但是这一延拓恰好定义了 $g_0|X_{n-1}$到 $g_1|X_{n-1}$的同伦 (相对 $A$). 将定理 \ref{thm:coboundary of difference cochain} 应用到映射 $F$上就得到 $c^{n+1}(g_{0})\sim c^{n+1}(g_1)$.
+            \end{proof}
+
+            由上述定理知存在唯一的上同调类 $\gamma^{n+1}(f) \in H^{n+1}(X,A;\pi_{n}(Y))$, 使得任何 $f$的延拓 $g:X_{n}\to Y$的延拓障碍 $c^{n+1}(g)$落在该上同调类中. 
+            
+            \begin{definition}
+                $\gamma^{n+1}(f)$ 被称为延拓 $f$的 \emph{主障碍}(primary obstruction).
+            \end{definition}
+            
+            因为 $H_{n-1}(Y)$是自由群, 由泛系数定理 
+            \begin{equation*}
+              H^{n}(Y;\pi_{n}(Y))\simeq \operatorname{Hom}(H_{n}(Y),\pi_{n}(Y))\oplus \operatorname{Ext}(H_{n-1}(Y);\pi_{n}(Y))\simeq \operatorname{Hom}(H_{n}(Y),\pi_{n}(Y)).
+            \end{equation*}
+            因此存在上同调类 $\iota^{n}(Y)$, 其在该对应下对应于Hurewicz同构的逆映射 $\rho^{-1}:H_{n}(Y)\simeq \pi_{n}(Y)$.
+
+            \begin{definition}
+                若 $Y$是一个 $(n-1)$-连通的空间, 则 $\iota^{n}(Y)$被称为 $Y$的\emph{示性类}.
+            \end{definition}
+
+            考虑映射的复合 
+            \begin{equation*}
+              H^{n}(Y;\Pi)\stackrel{f^{*}}{\rightarrow}H^{n}(A;\Pi)\stackrel{\delta^{*}}{\rightarrow}H^{n+1}(X,A;\Pi)
+            \end{equation*}
+            其中 $\Pi=\pi_{n}(Y)$, $\delta^{*}$是上边缘运算, 则 
+
+            \begin{theorem}
+                \label{thm:connection between primary obstruction and characteristic class}
+                延拓 $f$的主障碍 $\gamma^{n+1}(f)$由 
+                \begin{equation*}
+                  \gamma^{n+1}(f)=(-1)^{n}\delta^{*}f^{*}\iota^{n}(Y)
+                \end{equation*}
+                给出.
+            \end{theorem}
+
+            \begin{corollary}
+                映射 $f:A\to Y$能被延拓到 $X_{n+1}$上当且仅当 $\gamma^{n+1}(f)=\delta^{*}f^{*}\iota^{n}(Y)=0$.
+            \end{corollary}
+
+            \begin{corollary}[Hopf-Whitney Extension Theorem]
+                若 $\operatorname{dim}(X,A)\le n+1$, 则映射 $f:A\to Y$能被延拓到 $X$上当且仅当 $\delta^{*}f^{*}\iota^{n}(Y)=0$.
+            \end{corollary}
+
+            进一步, 可以将条件 $\operatorname{dim}(X,A)\le n+1$替换为一系列对 $(X,A)$和 $Y$的限制, 保证除了主障碍外没有其它的延拓障碍.
+
+            \begin{theorem}[Elienberg Extension Theorem]
+                \label{thm:Elienberg Extension Theorem}
+                假设 $Y$是 $q$-单纯的, 且 $H^{q+1}(X,A; \pi_{q}(Y))=0$当 $n+1\le q<\operatorname{dim}(X,A)$时成立. 则 $f:A\to Y$能被延拓到 $X$上当且仅当 $\gamma^{n+1}(f)=0$.
+            \end{theorem}
+
+            现在把以上的观察应用到同伦延拓问题中. 令 $f_0,f_1:X\to Y$ 满足 $f_0|A=f_1|A$. 平行于 \ref{thm:5.15} 之前的一段讨论, 构造不变同伦 $f_0|A=f_1|A$的连接映射 $F:A^{*}=\dot{I}\times X\cup I\times A\to Y$, 
+            \begin{equation*}
+                \begin{array}{ll}
+                    F(t, x)=f_t(x) & (x \in X, t=0,1) \\
+                    F(t, a)=f_0(a)=f_1(a) & (t \in \mathbf{I}, a \in A) ,
+                \end{array}
+            \end{equation*}
+            存在同构 
+            \begin{equation*}
+              \mathbf{i}^{*}\times : H^{n}(X,A;\Pi)\simeq H^{n+1}(X^{*},A^{*};\Pi),
+            \end{equation*}
+            令 $\delta^{n}(f_0,f_1)\in H^{n}(X,A;\Pi)$是满足 
+            \begin{equation}
+                \label{eq:defining property of primary deformation obstruction}
+              (-1)^{n}\mathbf{i}^{*}\times \delta^{n}(f_0,f_1)=\gamma^{n+1}(F)
+            \end{equation}
+            的上同调类, 则对于 $F$的任一延拓 $F_{n}:X_{n}^{*}\to Y$, $\delta^{n}(f_0,f_1)=d^{n}(F_{n})$.
+
+            \begin{definition}
+                $\delta^{n}(f_0,f_1)$被称为从 $f_0$到 $f_1$的形变主障碍.
+            \end{definition}
+
+            定义同态 $(f_0,f_1)^{*}$为复合 
+            \begin{equation*}
+                    H^q(Y) \xrightarrow{F^*} H^q(\mathbf{I} \times X \cup \mathbf{I} \times A) \xrightarrow{\delta^*} 
+                    H^{q+1}(\mathbf{I} \times X, \mathbf{I} \times X \cup \mathbf{I} \times A) \xrightarrow{\left(\mathbf{i}^* \times\right)^{-1}} H^q(X, A),
+            \end{equation*}
+
+            \begin{theorem}
+                \label{thm:properties of operators of obstruction of deforming}
+                同态 $(f_0,f_1)^{*}$有如下性质:
+                \begin{enumerate}
+                    \item $\left(f_0, f_0\right)^*=0$;
+                    \item $\left(f_0, f_1\right)^*+\left(f_1, f_2\right)^*=\left(f_0, f_2\right)^*$;
+                    \item $\left(f_1, f_0\right)^*=-\left(f_0, f_1\right)^*$;
+                    \item 若 $j^*: H^q(X, A) \rightarrow H^q(X)$ 是嵌入诱导的同态, 则
+                    $$
+                    j^* \circ\left(f_0, f_1\right)^*=f_1^*-f_0^* ;
+                    $$
+                    \item 若 $g: Y \rightarrow Y^{\prime}$, 则
+                    $$
+                    \left(g \circ f_0, g \circ f_1\right)^*=\left(f_0, f_1\right)^* \circ g^* ;
+                    $$
+                    \item 若 $h:(X',A')\to (X,A)$是胞腔映射, 则 
+                    $$
+                    (f_0\circ h, f_1\circ h)^{*}=h^{*}\circ (f_0,f_1)^{*}.
+                    $$
+                \end{enumerate}
+            \end{theorem}
+
+            由 $(f_0,f_1)^{*}$的定义 (\ref{eq:defining property of primary deformation obstruction}) 和定理 \ref{thm:connection between primary obstruction and characteristic class} 知
+            \begin{equation}
+              \delta^{n}(f_0,f_1)=(-1)^{n}(f_0,f_1)^{*}\iota^{n}(Y).
+            \end{equation}
+
+            \begin{theorem}[Elienberg Homotopy Theorem]
+                \label{thm:Elienberg Homotopy Theorem}
+                设 $Y$是 $q$-单的, 且 $H^{q}(X,A;\pi_{q}(Y))=0, \forall q:n+1\le q<1+\operatorname{dim}(X,A)$. 则 $f_0\simeq f_1$ (相对 $A$)当且仅当 $(f_0,f_1)^{*}\iota^{n}(Y)=0$.
+            \end{theorem}
+
+            \begin{theorem}[Elienberg Classification theorem]
+                \label{thm:Elienberg Classification Theorem}
+                假设
+                \begin{enumerate}
+                    \item 对于 $n + 1 \leq q < 1 + \dim(X, A)$,$Y$ 是 $q$-单纯的,
+                    \item 对于 $n + 1 \leq q < 1 + \dim(X, A)$,$H^q(X, A; \pi_q(Y)) = 0$,
+                    \item 对于 $n + 1 \leq q < \dim(X, A)$,$H^{q+1}(X, A; \pi_q(Y)) = 0$.
+                \end{enumerate}
+                令 $f_0 : X \to Y$ 为一个映射.那么对应 $f \mapsto (f_0, f)^* \iota^n(Y)$ 在 $f_0 | A$ 的延拓同伦类(相对于 $A$)和群 $H^n(X, A; \Pi)$ 之间诱导一一对应关系.
+            \end{theorem}
+
+            \begin{proof}
+                假设 $(f_0,f)^{*}\iota^{n}(Y)=(f_0,g)^{*}\iota^{n}(Y)$. 则由定理 \ref{thm:properties of operators of obstruction of deforming} 知 $(f,g)^{*}\iota^{n}(Y)=0$. 由定理 \ref{thm:Elienberg Homotopy Theorem} 知 $f\simeq g$ (相对 $A$).
+
+                令 $z \in H^{n}(X,A;\Pi)$, $d \in Z^{n}(X,A;\Pi)$ 是上同调类 $z$中的某个闭链. 令 $F_0:0\times X_{n}\cup I\times X_{n-1}\to Y$使得 
+                \begin{equation*}
+                    \begin{array}{ll}
+                        F_0(0, x)=f_0(x) & \left(x \in X_n\right), \\
+                        F_0(t, x)=f_0(x) & \left(x \in X_{n-1}\right) .
+                    \end{array}
+                \end{equation*}
+                由命题 \ref{prop:5.12}, $F_0$有延拓 $F:\hat{X}_{n}\to Y$ 使得 $d^{n}(F)=d$. 令 $f(x)=F(1,x), \forall x \in X_{n}$, 则由定理 \ref{thm:coboundary of difference cochain} 知
+                \begin{equation*}
+                    \begin{aligned}
+                        0 & =\delta d=\delta d^n\left(F_0\right)=c^{n+1}(f)-c^{n+1}\left(f_0 \mid X_n\right) \\
+                        & =c^{n+1}(f),
+                    \end{aligned}
+                \end{equation*}
+                其中最后一个等号是因为 $f_0|X_{n}$有延拓 $f_0$. 所以 $f$可以被延拓到 $X_{n+1}$上. 由条件 3, $f_{n}$可被延拓为映射 $f_1:X\to Y$. 因为 $d^{n}(F_0)=d$, 我们有 $z=\delta^{n}(f_0,f_1)=(-1)^{n}(f_0,f_1)^{*}\iota^{n}(Y)$. 所以任何一个上同调类都可以被实现.
+            \end{proof}
+
+
+            
+        
+
+
+    \section{Elienberg-MacLane Spaces}
+        内容取自\cite{Whitehead1978} 5.7, 5.8节.
+
+        \begin{definition}
+            设 $n$是正整数, $\Pi$是一个群(当 $n>1$时 $\Pi$交换), 一个 $(\Pi,n)$型的 \emph{Elienberg-MacLane 空间} $X=:K(\Pi,n)$是指除 $\pi_{n}(X)$外所有同伦群均平凡的空间, 且 $\pi_{n}(X)\simeq \Pi$.
+        \end{definition}
+
+        EM空间具有泛性质: 它总是同调函子的表出对象(representing object). 在定理 \ref{thm:Elienberg Classification Theorem} 中令 $A=\varnothing$, 并注意到 $Y=K(\Pi,n)$满足定理的所有条件, 得到
+        \begin{theorem}[Hopf-Whitney Classification Theorem]
+            从 $n$维CW复形 $X$到一个 $(n-1)$-连通, $n$-单纯的空间 $Y$的映射同伦类与群 $H^{n}(X; \pi_{n}(Y))$有一一对应(不一定是群同态).
+        \end{theorem}
+
+        特别地, 
+        \begin{corollary}
+            \label{cor:correspondence of homotopy class with cohomology}
+            令 $\Pi$是交换群, $n$是正整数, $Y$是一个 $(\Pi, n)$型的EM空间. 则对任意CW复形 $X$, $[X,Y]$与 $H^{n}(X; \Pi)$间有一一对应.
+        \end{corollary}
+
+        \begin{theorem}
+            令 $n$是正整数, $\Pi$是一个群(当 $n\ge 2$时交换). 则存在一个 $(\Pi,n)$型的EM空间, 且任何两个这样的空间是弱同伦等价的.
+        \end{theorem}
+        证明见 \cite{Whitehead1978} 第五章定理7.1和7.2. 因此EM空间的同调群和上同调群只取决于 $\Pi$, $n$和系数群, 通常记为 $H_{q}(\Pi,n;G)$和 $H^{q}(\Pi,n;G)$.
+        
+        \begin{example}
+            对于以下特殊情况, 可以计算 $H_{q}(\Pi,n)$:
+            \begin{enumerate}
+                \item $n=1, \Pi=\mathbb{Z}$时 
+                    \begin{equation*}
+                        H_{q}(\mathbb{Z},1)=\begin{cases} \mathbb{Z} & (q=0,1), \\ 0 & (q\ge 2). \end{cases}
+                    \end{equation*}
+                \item $n=1, \Pi=\mathbb{Z}_{m}$时
+                    \begin{equation*}
+                        H_q(\mathbb{Z}_m, 1) = 
+                        \begin{cases} 
+                        \mathbb{Z} & \text{(q = 0)}, \\
+                        0 & \text{(q even > 0)}, \\
+                        \mathbb{Z}_m & \text{(q odd)}.
+                        \end{cases}
+                    \end{equation*}
+                \item $n=2, \Pi=\mathbb{Z}$
+                \begin{equation*}
+                    H_q(\mathbb{Z}, 2) = 
+                    \begin{cases} 
+                    \mathbb{Z} & \text{(q even)}, \\
+                    0 & \text{(q odd)}.
+                    \end{cases}
+                \end{equation*}                    
+            \end{enumerate}
+        \end{example}
+
+        由Künneth定理,
+        \begin{equation*}
+            H_q(\Pi \oplus \Pi', n) \simeq \bigoplus_{r+s=q} H_r(\Pi, n) \otimes H_s(\Pi', n) \oplus
+            \bigoplus_{r+s=q-1} \operatorname{Tor}\{H_r(\Pi, n), H_s(\Pi', n)\}.
+        \end{equation*}
+        注意 $K(\Pi\oplus \Pi',n)=K(\Pi,n)\times K(\Pi',n)$, 所以可以利用上例中的结果计算任何以有限生成Abel群为基本群的EM空间的同调群.
+
+        \begin{proposition}
+            若 $n\ge 2$, 则 $H_{n+1}(\Pi,n)=0$.
+        \end{proposition}
+
+        \begin{proof}
+            取 $\Pi$的一个自由分解
+            \begin{equation*}
+              0\to R\to F\to \Pi\to 0,
+            \end{equation*}
+            分别以 $B, A$记 $R,F$的一组基. 如下构造 $X^{*}=K(\Pi,n)$: 令 $X_{n-1}=\{*\}$, $X_n = \bigvee_{a \in A} S_a^n$是一束 $n$-球面. 则由Hurewicz定理 $F\simeq H_{n}(X_{n})\simeq \pi_{n}(X_{n})$(这里用到了 $n>1$的条件). 令 $Y=\bigvee_{b \in B}S^{n}_{b}$, 使得 $H_{n}(Y)\simeq R$, 并取 $f:Y\to X_{n}$使得 $f_{*}:H_{n}(Y)\to H_{n}(X_{n})$ 是 $R$到 $F$的嵌入. 令 $X=X_{n+1}$是 $f$的映射锥. 现在利用推论\ref{thm:eliminate higher homotopy by attaching cells}在 $X$上贴 $\ge n+2$维的胞腔, 得到消灭了 $>n$维同伦群的空间 $X^{*}$. 则 $X^{*}=K(\Pi,n)$, 且 $(X^{*},X)$是 $(n+1)$-连通的. 由Hurewicz同构定理, $H_{n+1}(X^{*},X)=0$, 因此 $H_{n+1}(X)\to H_{n+1}(X^{*})$是一个满射. 故只需证明 $H_{n+1}(X)=0$.
+
+            $X$的链复形约化为
+            \begin{equation*}
+              \Gamma_{n+1}=H_{n+1}(X,X_{n})\stackrel{\partial}{\rightarrow}H_{n}(X_{n})=\Gamma_{n}.
+            \end{equation*}
+            $H_{n+1}(X,X_{n})$是自由Abel群, 每个胞腔对应一个生成元; 且 $\partial$将每个 $H_{n+1}(X,X_{n})$的生成元映到 $R$中对应的生成元. 所以 $\partial$是一个单射, 故 $H_{n+1}(X)=0$. 
+        \end{proof}
+
+        \begin{proposition}
+            令 $X$是一个 $(n-1)$-连通的空间, 假设 $\pi_{i}(X)=0$对 $n<i<q$成立. 则 
+            \begin{equation*}
+              \begin{aligned}
+              H_{i}(X) &\simeq H_{i}(\Pi,n)\quad (i<q), \\
+              H_{q}(X)/\sum_{q}(X) &\simeq H_{q}(\Pi,n),
+              \end{aligned}
+            \end{equation*}
+            其中 $\sum_{q}(X)$是Hurewicz映射 $\rho:\pi_{q}(X)\to H_{q}(X)$的像. 像中的同调类被称为\emph{球面同调类}(sperical homology class).
+        \end{proposition}
+
+        \begin{proof}
+            同样利用推论\ref{thm:eliminate higher homotopy by attaching cells}将 $X$嵌入到EM空间 $X^{*}$中, 且 $(X^{*},X)$是 $q$-连通的. 由Hurewicz定理,  $H_{i}(X^{*},X)=0, \forall i\le q$. 因此映射 $H_{i}(X)\to H_{i}(X^{*})$当 $i<q$时是同构, 所以有交换图
+            \begin{equation*}
+                \begin{tikzcd}
+                    \pi_{q+1}(X^*, X) \arrow[r, "\partial_*"] \arrow[d, "\rho"] & \pi_q(X) \arrow[r] & \pi_q(X^*) = 0 \arrow[d, "\rho"] \\
+                    H_{q+1}(X^*, X) \arrow[r, "\partial_*"] & H_q(X) \arrow[r, "i_*"] & H_q(X^*) \to 0
+                \end{tikzcd}
+            \end{equation*}
+            由Hurewicz定理 $\rho:\pi_{q+1}(X^{*},X)\to H_{q+1}(X^{*},X)$是满射; 因为 $\pi_{q}(X^{*})=0$, 所以 $\partial_* :\pi_{q+1}(X^{*},X)\to \pi_{q}(X)$也是满射. 因此 
+            \begin{equation*}
+                \begin{aligned}
+                    & \operatorname{Ker} i_*=\operatorname{Im} \partial_*=\operatorname{Im}\left(\partial_* \circ \rho\right)=\operatorname{Im}\left(\rho \circ \partial_*\right)=\operatorname{Im} \rho=\Sigma_q(X) \\
+                    & H_q\left(X^*\right) \simeq H_q(X) / \operatorname{Ker} i_*=H_q(X) / \Sigma_q(X) .
+                \end{aligned}
+            \end{equation*}
+        \end{proof}
+
+        在以上两个命题中取 $q=n+1$就得到
+
+        \begin{corollary}
+            若 $X$是一个 $(n-1)$-连通的空间 $(n\ge 2)$, 则Hurewicz映射 $\rho:\pi_{n+1}(X)\to H_{n+1}(X)$是满射.
+        \end{corollary}
+
+        \begin{theorem}
+            若 $\Pi$是Abel群, $n$是正整数, 则 $K(\Pi,n)$是一个Hopf空间.
+        \end{theorem}
+
+        \begin{proof}
+            若 $X$是任一拓扑空间, 则 $\Omega X$是一个Hopf空间, 且 $\pi_{i}(\Omega X)\simeq \pi_{i+1}(X)$. 若取 $X=K(\Pi,n+1)$, 则 $\Omega X$是一个具有我们想要的同伦群的空间. 但 $\Omega X$并不是一个CW复形. 不过可以证明
+            \begin{lemma}
+                若 $f:X\to Y$是弱同伦等价, $X$是一个CW复形, $Y$是一个Hopf空间, 则 $X$上有一个Hopf结构, 使得 $f$是一个Hopf映射.
+            \end{lemma}
+
+            在引理假设下, $f\times f:X\times X\to Y\times Y$也是弱等价. 记 $\mu:Y\times Y\to Y$是 $Y$上的乘积. 与 $f:X\to Y$的复合诱导了 $[X\times X,X]$与 $[X\times X,Y]$间的一一对应. 因此存在映射 $\lambda:X\times X\to X$使得
+            \begin{equation*}
+                \begin{tikzcd}
+                    X \times X \arrow[r, "\lambda"] \arrow[d, "f \times f"'] & X \arrow[d, "f"] \\
+                    Y \times Y \arrow[r, "\mu"] & Y
+                \end{tikzcd}
+            \end{equation*}
+            是同伦交换的. 所以
+            \begin{equation*}
+              f\circ \lambda\circ i_{\alpha}\simeq \mu\circ (f\times f)\circ i_{\alpha}=\mu\circ i_{\alpha}\circ f\simeq f \quad (\alpha=1,2)
+            \end{equation*}
+            从而 $\lambda\circ i_{\alpha}\simeq 1$. 因此 $\lambda$是 $X$上的一个乘积.
+            \hfill{\(\square\)}
+
+            由定理 \ref{thm:CW approx}, 存在弱同伦等价 $g:K(\Pi,n)\to \Omega K(\Pi,n+1)$, 所以由引理知 $K(\Pi,n)$是一个Hopf空间.
+        \end{proof}
+
+        事实上, 可以证明更强的命题
+        \begin{theorem}
+            若 $\Pi$是Abel群, $n$是正整数, 则 $K(\Pi,n)$有在同伦意义下唯一的Hopf结构.
+        \end{theorem}
+
+        \begin{proof}
+            令 $X=K(\Pi,n)$, 并考虑折叠映射 $\nabla: X\vee X\to X$. 延拓 $\nabla$的主障碍落在群 $G=H^{n+1}(X\times X, X\vee X; \Pi)$中. 若 $n>1$, 则由空间偶的Künneth公式(cf. \cite{Hatcher2002}, Theorem 3.18)知 $H_{n}(X\times X, X\vee X)$和 $H_{n+1}(X\times X, X\vee X)$均消灭, 所以 $G=0$. 若 $n=1$, 因为 $X$连通, 可假设 $X_0$为单点. 则相对CW复形 $(X\times X, X\vee X)$的 $2$-胞腔是 $X$的 $1$-胞腔的乘积 $E_{\alpha}^{1}\times E_{\beta}^{1}$. 以 $\alpha, \beta$记这些胞腔的特征映射代表的 $\pi_1(X)$同伦类, 则 $E_{\alpha}^{1}\times E_{\beta}^{1}$的粘贴映射是交换化子 $[i_{1*}(\alpha),i_{2*}(\beta)]$, 因此 $c^{2}(e_{\alpha}^{1}\times e_{\beta}^{1})=\nabla_{*}[i_{1*}(\alpha),i_{2*}(\beta)]=[\alpha,\beta]=1$. 所以主障碍在任何情形下都消灭.
+
+            若 $q>n$, 则 $\pi_{q}(X)=0$, 因此 $H^{q+1}(X\times X, X\vee X; \pi_{q}(X))=0$. 由定理 \ref{thm:Elienberg Extension Theorem}, $\nabla$可被延拓为 $X$上的一个乘积 $\mu:X\times X\to X$.
+
+            若 $\mu_0,\mu_1:X\times X\to X$是 $X$中的乘积, 则由Künneth定理得
+            \begin{equation*}
+                \left(\mu_0, \mu_1\right)^* \imath^n(X) \in H^n(X \times X, X \vee X ; \Pi)=0.
+            \end{equation*}
+            因为 $H^{q}(X\times X, X\vee X; \pi_{q}(X)), \forall q>n$, 由定理 \ref{thm:Elienberg Homotopy Theorem} 知 $\mu_0\simeq \mu_1$ (相对 $X\vee X$).
+        \end{proof}
+
+        因为 $K(\Pi, n)$是一个Hopf空间, 集合 $[X,K(\Pi, n)]$上有自然的复合运算. 实际上, $[X,K(\Pi, n)]\simeq H^{n}(X;\Pi)$. 进一步
+
+        \begin{theorem}
+            \label{thm:correspondence of homotopy class with cohomology is an isomorphism}
+            推论 \ref{cor:correspondence of homotopy class with cohomology} 中的一一对应是同构 $[X, K(\Pi,n)]\simeq H^{n}(X;\Pi)$.
+        \end{theorem}
+
+        \begin{proof}
+            令 $f,g:X\to K(\Pi,n)$, 并令 $\mu:K\times K\to K$是 $K=K(\Pi,n)$上的乘积. 令 $h$是如下映射的复合
+            \begin{equation*}
+                X \xrightarrow{\Delta} X \times X \xrightarrow{f \times g} K \times K \xrightarrow{\mu} K .
+            \end{equation*}
+            只要证明 $h^{*}(b_{n})=f^{*}(b_{n})+g^{*}(b_{n})$即可, 其中 $b_{n}=\iota^{n}(K)$是示性类.
+
+            因为 $H_{i}(K)=0, 0\le i<n$, 群 $H_{q}(K\times K,K\vee K)$在 $<2n$维时消灭. 由\cite{Whitehead1978}第三章推论(7.3*), 知 $b_{n}$是本原(primitive)的:
+            \begin{equation*}
+              \mu^{*}b_{n}=p_1^{*}b_{n}+p_2^{*}b_{n}
+            \end{equation*}
+            其中 $p_1,p_2:K\times K\to K$是投影. 而 $p_1\circ(f\times g)=f\circ p_1$, $p_2\circ (f\times g)=g\circ p_2$, 所以 
+            \begin{equation*}
+                \begin{aligned}
+                    (f \times g)^* \mu^* \mathbf{b}_n & =(f \times g)^* p_1^* \mathbf{b}_n+(f \times g)^* p_2^* \mathbf{b}_n \\
+                    & =p_1^* f^* \mathbf{b}_n+p_2^* g^* \mathbf{b}_n .
+                \end{aligned}
+            \end{equation*}
+            但是 $p_1\circ \Delta=p_2\circ \Delta=1$, 所以 
+            \begin{equation*}
+                \begin{aligned}
+                    h^* \mathbf{b}_n & =\Delta^*(f \times g)^* \mu^* \mathbf{b}_n=\Delta^* p_1^* f^* \mathbf{b}_n+\Delta^* p_2^* g^* \mathbf{b}_n \\
+                    & =f^* \mathbf{b}_n+g^* \mathbf{b}_n .
+                \end{aligned}
+            \end{equation*}
+        \end{proof}
+
+        EM空间的重要性还体现在其与上同调运算的联系中.
+
+        \begin{definition}
+            一个 (本原的)\emph{上同调运算}(cohomology operation) 是指上同调函子间的自然变换 $\theta:H^{n}(\ ;\Pi)\to H^{q}(\ ; G)$. 这时称 $\theta$是 $(n,q;\Pi,G)$-型的.
+        \end{definition}
+
+        令 $\Pi, G$是Abel群, $u\in H^{q}(\Pi,n;G)$. 若 $X$是一个CW复形, $x \in H^{n}(X;\Pi)$, 则由推论 \ref{cor:correspondence of homotopy class with cohomology} 知存在唯一的映射同伦类 $f:X\to K(\Pi, n)$使得 $f^{*}\mathbf{b}_{n}=x$, 其中 $\mathbf{b}_{n}=\iota^{n}(K(\Pi, n))$是示性类. 令 $\theta_{u}=f^{*}(u)\in H^{q}(X; G)$. 则 $\theta_{u}:H^{n}(X,\Pi)\to H^{q}(X;G)$是一个 $(n,q;\Pi,G)$-型的上同调运算.
+
+        \begin{theorem}[Serre]
+            上述对应 $u\to \theta_{u}$是 $H^{q}(\Pi,n;G)$与所有 $(n,q;\Pi;G)$型的上同调运算构成的集合间的一一对应. 若 $\theta$是一个上同调运算, 则 $H^{q}(\Pi,n;G)$中与之对应的上同调类是 $\theta(\mathbf{b}_{n})$.
+        \end{theorem}
+
+        \begin{proof}
+            令 $u_{\theta}=\theta(\mathbf{b}_{n})$. 只需证明
+            \begin{enumerate}
+                \item $\theta_{u_{\theta}}=\theta$,
+                \item $u_{\theta_{u}}=u$.
+            \end{enumerate}
+
+            若 $\theta$是一个上同调运算, $x \in H^{n}(X;\Pi)$, 且 $f:X\to K(\Pi,n)$使得 $f^{*}(\mathbf{b}_{n})=x$, 则 
+            \begin{equation*}
+              \theta_{u}(x)=f^{*}(u_{\theta})=f^{*}\theta(\mathbf{b}_{n})=\theta f^{*}(\mathbf{b}_{n})=\theta(x),
+            \end{equation*}
+            所以 $\theta_{u_{\theta}}=\theta$.
+
+            另一方面, 若 $u \in H^{q}(\Pi,n;G)$, 则 
+            \begin{equation*}
+              u_{\theta_{u}}=\theta_{u}(\mathbf{b}_{n});
+            \end{equation*}
+            注意到 $K(\Pi,n)$上的恒同映射 $1$满足 $1^{*}\mathbf{b}_{n}=\mathbf{b}_{n}$, 从而 
+            \begin{equation*}
+              \theta_{u}(\mathbf{b}_{n})=1^{*}(u)=u
+            \end{equation*}
+            所以 $u_{\theta_{u}}=u$.
+        \end{proof}
+
+        上同调运算并不先验地是可加的. 例如, 假设存在配对 $\Pi \otimes \Pi\to G$, 则可以对 $u \in H^{n}(X; \Pi)$定义其杯积平方 $Sq^{n}(u)=u \smile u \in H^{2n}(X;G)$. 这是一个 $(n,2n;\Pi,G)$-型的上同调运算. 取 $\Pi=G=\mathbb{Z}, X=\mathbb{C}P^{2}, n=2$就得到一个不可加的例子. 因此要问: $u \in H^{q}(\Pi,n;G)$要满足什么条件才能保证其对应的上同调运算是可加的?
+
+        \begin{theorem}
+            令 $u\in H^{q}(\Pi,n;G)$, $\theta=\theta_{u}$是其对应的上同调运算. 则 $\theta$是可加的当且仅当 $u$是本原的.
+        \end{theorem}
+
+        \begin{remark}
+            Hopf空间中的本原上同调类的详细定义见 \cite{Whitehead1978} p.148. 这里 $K=K(\Pi,n)$是一个Hopf空间, 乘积结构为 $\mu:K\times K\to K$. 设 $p_1,p_2:K\times K\to K$分别是到第一个分量和第二个分量的投影, 则 $u$是本原的当且仅当 
+            \begin{equation*}
+              \mu^{*}u=p_1^{*}u+p_2^{*}u.
+            \end{equation*}
+        \end{remark}
+
+        \begin{proof}
+            在定理 \ref{thm:correspondence of homotopy class with cohomology is an isomorphism} 的证明中已经看到 $\mathbf{b}_{n}$是本原的, 即若 $f:X\to K$, $g:X\to K$, $h=\mu \circ (f\times g)\circ \Delta$, 则 $h^{*}\mathbf{b}_{n}=f^{*}\mathbf{b}_{n}+g^{*}\mathbf{b}_{n}$.
+
+            假设 $\theta$是可加的, 令 $u=u_{\theta}=\theta(\mathbf{b}_{n})$. 则 
+            \begin{equation*}
+                \begin{aligned}
+                    \mu^* u=\mu^* \theta\left(\mathbf{b}_n\right) & =\theta \mu^*\left(\mathbf{b}_n\right)=\theta\left(p_1^* \mathbf{b}_n+p_2^* \mathbf{b}_n\right) \\
+                    & =p_1^* \theta\left(\mathbf{b}_n\right)+p_2^* \theta\left(\mathbf{b}_n\right)=p_1^* u+p_2^* u
+                \end{aligned}
+            \end{equation*}
+            所以 $u$是本原的.
+
+            反之, 若 $u$是本原的, 令 $\theta=\theta_{u}$. 令 $x,y \in H^{n}(X;\Pi)$, 且 $f,g :X\to K(\Pi,n)$ 是对应的映射. 令 $h=\mu\circ(f\times g)\circ \Delta$. 则 $h^{*}\mathbf{b}_{n}=f^{*}\mathbf{b}_{n}+g^{*}\mathbf{b}_{n}=x+y$, 而 
+            \begin{equation*}
+                \begin{aligned}
+                    \theta(x+y) & =\theta h^* \mathbf{b}_n=h^* \theta\left(\mathbf{b}_n\right)=h^*(u) \\
+                    & =\Delta^*(f \times g)^* \mu^* u=\Delta^*(f \times g)^*\left(p_1^* u+p_2^* u\right) \\
+                    & =\Delta^*\left(p_1^* f^{*} u+p_2^* g^* u\right)=f^* u+g^* u \\
+                    & =\theta(x)+\theta(y),
+                \end{aligned}
+            \end{equation*}
+            所以 $\theta$是加性的.
+        \end{proof}
+
+    \section{Postnikov Approximation}
+        内容取自\cite{Whitehead1978} 9.1-9.5节.
+
+        由推论 \ref{thm:eliminate higher homotopy by attaching cells}, 对任意一个连通空间 $X$, 可将 $X$嵌入到空间 $X^{*}$中, 使得 
+        \begin{enumerate}
+            \item $(X^*, X)$ 是相对CW复形；
+            \item $(X^*, X)$ 是1连通的；
+            \item $\pi_q(X^*) = 0, \forall q \geq 2$。
+        \end{enumerate}
+        这样内射 $\pi_1(X)\to \pi_1(X^{*})$是一个同构, 且 $X^{*}$是一个 $(\pi_1(X),1)$型的EM空间.
+
+        令 $\tilde{X}$是嵌入映射 $j:X\hookrightarrow X^{*}$的映射纤维(见 \cite{Whitehead1978} p.43), 
+        \begin{equation*}
+            \begin{tikzcd}
+                \mathbf{T}^j\simeq \tilde{X} \arrow[r, "i"] \arrow[dr, "p"'] & \mathbf{I}^j \arrow[d, "p_1"] \arrow[dr, "q"] & \\
+                & X \arrow[r, "j"] & X^{*}
+            \end{tikzcd}
+        \end{equation*}
+        由纤维化 $\tilde{X}\to \mathbf{I}^{j}\to X^{*}$的长正合列, 以及同伦等价 $\mathbf{I}^{j}\to X$, 知序列
+        \begin{equation*}
+            \cdots \rightarrow \pi_{q+1}\left(X^*\right) \xrightarrow{\Delta_*} \pi_q(\tilde{X}) \xrightarrow{p_*} \pi_q(X) \xrightarrow{i_*} \pi_q\left(X^*\right) \rightarrow \cdots
+        \end{equation*}
+        正合. 若 $q\ge 2$, $\pi_{q}(X^{*})=\pi_{q+1}(X^{*})=0$, 所以 $p_*: \pi_{q}(\tilde{X})\simeq \pi_{q}(X)$. 因为 $\pi_2(X^{*})=0$, $i_*:\pi_1(X)\simeq \pi_1(X^{*})$, 所以 $\pi_1(\tilde{X})=0$.
+
+        可以对维数推广上述构造. 称映射 $p:\tilde{X}\to X$是 $N$-connective 的, 若 
+        \begin{enumerate}
+            \item $\tilde{X}$是 $N$-连通的;
+            \item $p_*:\pi_{q}(\tilde{X})\simeq \pi_{q}(X), \forall q\ge N+1$.
+        \end{enumerate}
+        进一步, 称空间 $X$是 \emph{$N$-反连通}(anticonnected)的, 若 $\pi_{q}(X)=0, \forall q\ge N$. 若 $X^{*}$是 $N$-反连通的, $(X^{*},X)$是 $N$-连通的, 则称 $X^{*}$是 $X$的 $N$-反连通延拓; 此时内射
+        \begin{equation*}
+          \pi_{q}(X)\to \pi_{q}(X^{*})
+        \end{equation*}
+        当 $q<N$时是同构. 进一步若 $(X^{*},X)$是不含 $<N$维胞腔的相对CW复形, 则称 $X^{*}$是 $X$的正规 $N$-反连通延拓.   
+
+        重复上述构造, 但在这里假设 $X^{*}$是正规 $(N+1)$-反连通延拓, $\tilde{X}$是嵌入映射 $i:X\hookrightarrow X^{*}$的映射纤维, 得到 
+        
+        \begin{theorem}
+            \label{thm:existence of n connective fibration}
+            令 $X$是一个连通空间, $N\in \mathbb{Z}_{>0}$. 则存在一个 $N$-连通的纤维化 $p:\tilde{X}\to X$.
+        \end{theorem}
+
+        \begin{theorem}
+            \label{thm:extension properties of anticonnected extension}
+            令 $X^{*}$是 $X$的正规 $n$-反连通扩张, $Y^{*}$是 $Y$的正规 $m$-反连通扩张, $f:X\to Y$. 则 
+            \begin{enumerate}
+                \item 若 $m\le n$, 则 $f$可被延拓到映射 $f^{*}:X^{*}\to Y^{*}$;
+                \item 若 $m\le n+1$, 则任意两个延拓 $f_0^{*},f_1^{*}:X^{*}\to Y^{*}$相对 $X$同伦.
+            \end{enumerate}
+        \end{theorem}
+
+        \begin{proof}
+            延拓 $f$的障碍落在 $H^{q+1}(X^{*},X;\pi_{q}(Y^{*}))\ (q\ge n)$中; 同伦形变 $f_0^{*}$到 $f_1^{*}$的障碍落在 $H^{q}(X^{*},X;\pi_{q}(Y^{*}))\ q\ge n+1$中.
+        \end{proof}
+
+        \begin{corollary}
+            令 $X_1^{*}$和 $X_2^{*}$是 $X$的正规 $(n+1)$-反连通扩张. 则空间偶 $(X_1^{*},X)$ 和 $(X_2^{*},X)$有相同的伦型.
+        \end{corollary}
+
+        \begin{proof}
+            将上一定理应用到 $\operatorname{id}:X\to X$上.
+        \end{proof}
+
+        \begin{corollary}
+            令 $X_1^{*}$和 $X_2^{*}$是 $X$的正规 $(N+1)$-反连通扩张. 令 $p_{i}:\tilde{X}_{i}\to X$是定理 \ref{thm:existence of n connective fibration} 的证明中构造的 $N$-connective 纤维化. 则 $p_1$和 $p_2$有相同的纤维伦型.
+        \end{corollary}
+
+        构造 $N$-connective 纤维化 $p:\tilde{X}\to X$的过程可被逐维分解. 令 $X_0$是连通空间, 且假设我们已经构造了 $X_{r}$及 $r$-connective 纤维化 $p_{r}:X_{r}\to X_{r-1}(r=1, \ldots ,N)$. 则复合映射 $q_{n}=p_1\circ \cdots\circ p_{N}$是个 $N$-connective 纤维化. 将定理 \ref{thm:existence of n connective fibration} 的构造应用到空间 $X_{N}$上, 我们构造 $X$的正规 $(N+2)$-反连通扩张 $X_{N}^{*}$, 从而构造 $(N+1)$-connective 纤维化 $p_{N+1}:X_{N+1}\to X_{N}$. 注意到 $X_{N}^{*}$是EM空间 $K(\pi_{N+1}(X),N+1)$, 从而 $p_{N+1}$的纤维是 $\Omega X_{N}^{*}=K(\pi_{N+1}(X),N)$.
+
+        \begin{theorem}[Whitehead Tower]
+            若 $X=X_0$是连通空间, 则存在序列
+            \begin{equation*}
+                \cdots \rightarrow X_n \xrightarrow{p_n} X_{n-1} \rightarrow \cdots \rightarrow X_1 \xrightarrow{p_1} X_0 ,
+            \end{equation*}
+            且 $p_{n}$及 $q_{n}=p_1\circ p_2\circ \cdots\circ p_{n}$是 $n$-connective 的纤维化. $p_{n}$的纤维是一个EM空间 $K(\pi_{n}(X),n-1)$.
+        \end{theorem}
+
+        一般来说, 不能断定 $X$与其涉及的EM空间的弱乘积 $\prod_{n=1}^{\infty} K(\pi_{n}(X),n)$同伦等价. 但是有
+
+        \begin{theorem}[J. C. Moore]
+            \label{thm:criteria for exact Postnikov approx}
+            CW复形 $K$具有EM空间的弱乘积的伦型的充要条件是对任意正整数 $n$, Hurewicz映射 $\rho:\pi_{n}(X)\to H_{n}(X)$有左逆 $\lambda:H_{n}(X)\to \pi_{n}(X)$.
+        \end{theorem}
+
+        在一般情况下欲确认 $X$的伦型, 将看到这些信息包含在一列上同调类中, 称为 $X$的\emph{Postnikov不变量}(Invariants).
+
+        \begin{definition}
+            称CW复形序列 $\{X^{i}\}$是CW复形 $X$的一个\emph{预解列}(resolving sequence), 若 $X^{n-1}$是 $X$的一个正规 $n$-反连通的扩张. 一列满足 $f\circ i_{n}=i_{n-1}$的映射 $f_{n}:X^{n}\to X^{n-1}$称为\emph{粘接序列}(bonding sequence), 其中 $i_{n}:X\hookrightarrow X^{n}$是嵌入映射. 预解列 $\{X^{n}\}$与粘接序列 $\{f_{n}\}$合起来给出了 $X$的一个\emph{同伦预解}(homotopy resolution).
+        \end{definition}
+
+        \begin{equation*}
+          \begin{tikzcd}
+            X \arrow[rd, "i_2"'] \arrow[rrd, "i_1"'] \arrow[rrrd, "i_0"] & & & \\
+            \cdots \arrow[r] & X_2 \arrow[r, "f_2"'] & X_1 \arrow[r, "f_1"'] & X_0
+          \end{tikzcd}
+        \end{equation*}
+
+        由定理 \ref{thm:extension properties of anticonnected extension} 知 
+        \begin{theorem}
+            若 $\{X^{n}\}$ 是 $X$的一个预解列, 则存在 $\{X^{n}\}$的粘接序列 $\{f_{n}\}$. 若 $\{f_{n}\}$与 $\{f_{n}'\}$是两个粘接序列, 则对每个 $n$成立 $f_{n}\simeq f_{n}'$ (相对 $X$).
+        \end{theorem}
+
+        不妨假设 $f_{n}$是胞腔映射. 考虑 $f=f_{n+1}:X^{n+1}\to X^{n}$的映射柱, 其有子复形 $0\times X \cup I\times X \cup 1\times X^{n}$. 将 $I\times X$压平不改变 $I_{f}$的伦型, 即通过投影映射 $p:I\times X\to X$粘接 
+        \begin{equation*}
+          \hat{X}^{n}=I_{f}\cup _{p}X.
+        \end{equation*}
+        $\hat{X}^{n}$称为 $f$的\emph{相对映射柱}(relative mapping cylinder).
+
+        进一步可以构造相对映射锥 $\check{X}^n=\hat{X}^n / X^{n+1}$, 嵌入 $X^{n}\hookrightarrow \hat{X}^{n}$诱导了 $X^{n}$到 $\check{X}^{n}$的映射. 后者不是嵌入, 因为子空间 $X \subset X^{n}$被商掉了; 但是仍然有嵌入 $X^{n}/X\hookrightarrow \check{X}^{n}$.
+
+        从交换图 
+        \begin{equation*}
+            \begin{tikzcd}
+                & \pi_{q}(X^{n+1}) \arrow[dd, "\pi_{q}(f_{n+1})"] \\
+                \pi_{q}(X) \arrow[ur, "\pi_{q}(i_{n+1})"] \arrow[dr, "\pi_{q}(i_{n})"] \\
+                & \pi_{q}(X^{n})
+            \end{tikzcd}
+        \end{equation*}
+        得到
+
+        \begin{theorem}
+            同态 $\pi_{q}(f_{n+1}):\pi_{q}(X^{n+1})\to \pi_{q}(X^{n})$当 $q\neq n+1$时是同构. 因此 
+            \begin{equation*}
+              \pi_{q}(\hat{X}^{n},X^{n+1})=0\quad (q\neq n+2),
+            \end{equation*}
+            同时复合映射
+            \begin{equation*}
+                \pi_{n+2}\left(\hat{X}^n, X^{n+1}\right) \xrightarrow{\partial_*} \pi_{n+1}\left(X^{n+1}\right) \xrightarrow{\pi_{n+1}\left(i_{n+1}\right)^{-1}} \pi_{n+1}(X)
+            \end{equation*}
+            是同构.
+        \end{theorem}
+
+        由假设 $X^{n+1}$是 $(n+1)$-单的, 所以复形偶 $(\hat{X}^{n},X^{n+1})$是 $(n+2)$-单的. 由相对Hurewicz定理得到
+        \begin{corollary}
+            复合映射
+            \begin{equation*}
+                \begin{aligned}
+                    H_{n+2}\left(\hat{X}^n, X^{n+1}\right) \xrightarrow{\rho^{-1}} \pi_{n+2}\left(\hat{X}^n, X^{n+1}\right) \xrightarrow{\partial_*} 
+                    \pi_{n+1}\left(X^{n+1}\right) \xrightarrow{\pi_{n+1}\left(i_{n+1}\right)^{-1}} \pi_{n+1}(X)
+                \end{aligned}
+            \end{equation*}
+            是一个同构 $\kappa_{n+2}:H_{n+2}(\hat{X}^{n},X^{n+1})\to \pi_{n+1}(X)$.
+        \end{corollary}
+
+        因为 $H_{n+1}(\hat{X}^{n},X^{n+1})=0$, 泛系数定理给出
+        \begin{equation*}
+          H^{n+2}(\hat{X}^{n},X^{n+1};G)\simeq \operatorname{Hom}(H_{n+2}(\hat{X}^{n},X^{n+1}),G),
+        \end{equation*}
+        因此同构 $\kappa_{n+2}$对应到一个上同调类 
+        \begin{equation*}
+          k^{n+2}_{1}\in H^{n+2}(\hat{X}^{n},X^{n+1};\pi_{n+1}(X)),
+        \end{equation*}
+        其在内射下的象
+        \begin{equation*}
+          k^{n+2}(X)=k^{n+2}\in H^{n+2}(X^{n};\pi_{n+1}(X))
+        \end{equation*}
+        被称为 $X$的第 $(n+2)$个 \emph{Postnikov不变量}(Postnikov invariant). $\{X^{n},f_{n},k^{n+2}\}$被称为 $X$的一个\emph{Postnikov系统}(Postnikov system).
+
+        由复形偶 $(\hat{X}^{n},X^{n+1})$的上同调正合列, 有 
+        \begin{equation}
+          f^{*}_{n+1}k^{n+2}=0\in H^{n+2}(X^{n+1};\pi_{n+1}(X)).
+        \end{equation}
+
+        由定义, 嵌入映射 $i_{n}:X\hookrightarrow X^{n}$, $i_{n+1}:X\hookrightarrow X^{n+1}$满足
+        \begin{equation*}
+          f_{n+1}\circ i_{n+1}=i_{n},
+        \end{equation*}
+        所以 
+
+        \begin{proposition}
+            内射
+            \begin{equation*}
+              i^{*}_{n}:H^{n+2}(X^{n};\pi_{n+1}(X))\to H^{n+2}(X;\pi_{n+1}(X))
+            \end{equation*}
+            将Postnikov不变量 $k^{n+2}$映到0.
+        \end{proposition}
+
+        下面解释$k^{n+2}$在何种意义下是``不变的''. 令 $\{X^{n},f_{n}\}$和 $\{Y^{n},g_{n}\}$分别是$X, Y$的同伦预解. 由定理 \ref{thm:extension properties of anticonnected extension}, 对任意 $h:X\to Y$, 其可被延拓到 $h_{n}:X^{n}\to Y^{n}$. 进一步, 映射 $g_{n+1}\circ h_{n+1}$, $h_{n}\circ f_{n+1}:X^{n+1}\to Y^{n}$ 是相对 $X$同伦的. 映射 $h_{n}$对任意系数群 $G$均诱导了同态 $h^{*}_{n}:H^{n+2}(Y^{n};G)\to H^{n+2}(X^{n};G)$; 另一方面, $h$诱导的系数群同态 $\pi_{n+1}(X)\to \pi_{n+1}(Y)$对任一拓扑空间 $Z$决定了同态
+        \begin{equation*}
+          h_*:H^{n+2}(Z;\pi_{n+1}(X))\to H^{n+2}(Z;\pi_{n+1}(Y)).
+        \end{equation*}
+
+        \begin{theorem}
+            Postnikov不变量
+            \begin{equation*}
+              k^{n+2}(X)\in H^{n+2}(X^{n};\pi_{n+1}(X)), \\
+              k^{n+2}(Y)\in H^{n+2}(Y^{n};\pi_{n+1}(Y))
+            \end{equation*}
+            由关系式
+            \begin{equation*}
+              h^{*}_{n}k^{n+2}(Y)=h_* k^{n+2}(X) \in H^{n+2}(X^{n};\pi_{n+1}(Y))
+            \end{equation*}
+            联系.
+        \end{theorem}
+
+        \begin{proof}
+            从 $g_{n+1}\circ h_{n+1}$到 $h_{n}\circ f_{n+1}$的同伦可被用于构造映射 $\hat{G}:(\hat{X}^{n},X^{n+1})\to (\hat{Y}^{n},Y^{n+1})$, 其限制在 $X^{n},X^{n+1}$上分别是 $h_{n}$, $h_{n+1}$. 只要证明 $\hat{G}^{*}k_1^{n+2}(X)=h_*k_1^{n+2}(Y)$. 但是由交换图
+            \begin{equation*}
+              \begin{tikzcd}
+                H_{n+2}(\hat{X}^{n},X^{n+1}) \arrow[d, "H_{n+2}(\hat{G})"'] & \pi_{n+2}(\hat{X}^{n},X^{n+1}) \arrow[l, "\rho"] \arrow[d, "\pi_{n+2}(\hat{G})"] \arrow[r, "\partial_*"] & \pi_{n+1}(X^{n+1}) \arrow[d, "\pi_{n+1}(h_{n+1})"] & \pi_{n+1}(X) \arrow[l, "\pi_{n+1}(i_{n+1})"'] \arrow[d, "\pi_{n+1}(h)"] \\
+                H_{n+2}(\hat{Y}^{n},Y^{n+1}) & \pi_{n+2}(\hat{Y}^{n},Y^{n+1}) \arrow[l, "\rho"'] \arrow[r, "\partial_*"'] & \pi_{n+1}(Y^{n+1}) & \pi_{n+1}(Y) \arrow[l, "\pi_{n+1}(j_{n+1})"]
+              \end{tikzcd}
+            \end{equation*}
+            $k_1^{n+2}(X)$对应到同态
+            \begin{equation*}
+              \pi_{n+1}(i_{n+1})^{-1}\circ \partial_*\circ \rho^{-1} \in \operatorname{Hom}(H_{n+2}(\hat{X}^{n},X^{n+1}),\pi_{n+1}(X)),
+            \end{equation*}
+            对 $k_1^{n+2}(Y)$有类似的结果. 它们在 $\hat{G}^{*},h_*$下的象分别对应到上述同态与 $H_{n+2}(\hat{G}),\pi_{n+1}(h)$的复合. 因此上述交换图给出了等式的证明.
+        \end{proof}
+
+        令 $X$是一拓扑空间, $n$是非负整数. 令 $F_{n}=F_{n}(X)$是所有连续映射 $\alpha:\dot{\Delta}^{n+1}\to X$的集合, 赋予离散拓扑; 赋值映射 $\mathbf{e}=\mathbf{e}_{X}$将 $F_{n}\times \dot{\Delta}^{n+1}$映到 $X$; 令
+        \begin{equation*}
+          Q_{n-1}(X)=X\cup _{\mathbf{e}}(F_{n}\times \Delta^{n+1}).
+        \end{equation*}
+        令 $f:X\to Y$; 则与 $f$的复合给出了映射
+        \begin{equation*}
+          \underline{f}:F_{n}(X)\to F_{n}(Y),
+        \end{equation*}
+        且 $\mathbf{e}_{Y}\circ (f\times 1)=f\circ \mathbf{e}_{X}$. 因此映射 $f:X\to Y$, $\underline{f}\times 1:F_{n}(X)\times \Delta^{n+1}\to F_{n}(Y)\times \Delta^{n+1}$与商映射
+        \begin{equation*}
+          X+ (F_{n}(X)\times \Delta^{n+1})\to Q_{n-1}(X),
+          Y+ (F_{n}(Y)\times \Delta^{n+1})\to Q_{n-1}(Y)
+        \end{equation*}
+        相容, 因此诱导了映射 
+        \begin{equation*}
+          Q_{n-1}(f):Q_{n-1}(X)\to Q_{n-1}(Y).
+        \end{equation*}
+        由此我们定义了函子 $Q_{n-1}:\mathcal{K}\to \mathcal{K}$. 进一步, 嵌入映射 $j_{n-1}(X):X\hookrightarrow Q_{n-1}(X)$给出了恒等函子到 $Q_{n-1}$的一个自然变换.
+
+        \begin{theorem}
+            函子 $Q_{n-1}$及自然变换 $j_{n-1}$有如下性质:
+            \begin{enumerate}
+                \item 空间偶 $(Q_{n-1}(X),X)$是一个相对CW复形; 进一步, 是 $X$的一个 $(n+1)$-胞腔延拓;
+                \item 内射 $\pi_{i}(X)\to \pi_{i}(Q_{n-1}(X))$当 $i<n$时是同构;
+                \item $\pi_{n}(Q_{n-1}(X))=0$;
+                \item 若 $f:X\to Y$是一个嵌入, 则
+                \begin{equation*}
+                  Q_{n-1}(f):Q_{n-1}(X)\to Q_{n-1}(Y)
+                \end{equation*}
+                也是一个嵌入.
+            \end{enumerate}
+        \end{theorem}
+
+        欲通过自然的方式构造空间 $X^{n-1}$, 我们只需要重复上述的构造. 特别地, 令
+        \begin{equation*}
+            \begin{array}{ll}
+                P_k^{n-1}(X)=X & (k \leq n), \\
+                P_{n+1}^{n-1}(X)=Q_{n-1}(X), & \\
+                P_k^{n-1}(X)=Q_{k-2}\left(P_{k-1}^{n-1}(X)\right) & (k \geq n+2).
+            \end{array}
+        \end{equation*}
+        递归定义给出了相对CW复形 $(P^{n-1}(X),X)$, 其 $k$-骨架是 $P^{n-1}_{k}(X)$. 进一步, 若 $f:X\to Y$, 可以递归地定义 $P_{k}^{n-1}(f)$:
+        \begin{equation*}
+            \begin{array}{ll}
+                P_k^{n-1}(f)=f & (k \leq n), \\
+                P_{n+1}^{n-1}(f)=Q_{n-1}(f), & \\
+                P_k^{n-1}(f)=Q_{k-2}\left(P_{k-1}^{n-1}(f)\right) & (k \geq n+2).
+            \end{array}
+        \end{equation*}
+        显然每个 $P_{k}^{n-1}(f)$都是前一个映射的扩张, 因此它们合起来定义了映射 
+        \begin{equation*}
+          P^{n-1}(f):P^{n-1}(X)\to P^{n-1}(Y).
+        \end{equation*}
+        这样我们定义了函子 $P^{n-1}:\mathcal{K}\to \mathcal{K}$, 且嵌入映射 $i_{n-1}(X):X\hookrightarrow P^{n-1}(X)$定义了一个恒等函子到 $P^{n-1}$的自然变换.
+
+        \begin{theorem}
+            函子 $P^{n-1}$和自然变换 $i_{n-1}$有如下性质:
+            \begin{enumerate}
+                \item 空间偶 $(P^{n-1}(X),X)$是相对CW复形, 且 $P^{n-1}(f):(P^{n-1}(X),X)\to (P^{n-1}(Y),Y)$是胞腔映射;
+                \item 空间 $P^{n-1}(X)$是 $X$的一个正规 $n$-反连通扩张.
+                \item 若 $f:X\to Y$是嵌入, 则 $P^{n-1}(f):P^{n-1}(X)\to P^{n-1}(Y)$也是嵌入.
+            \end{enumerate}
+        \end{theorem}
+
+        若 $k\le n$, 则 
+        \begin{equation*}
+          P^{n}_{k}(X)=X=P_{k}^{n-1}(X),
+        \end{equation*}
+        同时
+        \begin{equation*}
+          P^{n}_{n+1}(X)=X \subset Q_{n-1}(X)=P^{n-1}_{n+1}(X), \\
+          P^{n}_{n+2}(X)=Q_{n}(X)\subset Q_{n}(P^{n-1}_{n+1}(X))=P_{n+2}^{n-1}(X).
+        \end{equation*}
+        假设 $P^{n}_{k-1}(X)$是 $P^{n-1}_{k-1}(X),k\ge n+3$. 则 
+        \begin{equation*}
+          P^{n}_{k}(X)=Q_{k-2}(P^{n}_{k-1}(X))\subset Q_{k-2}(P^{n-1}_{k-1}(X))=P^{n-1}_{k}(X).
+        \end{equation*}
+        因此由归纳法 $P^{n}_{k}(X)\subset P^{n-1}_{k}(X)$ 对所有 $k$成立. 所以 
+        \begin{proposition}
+            相对CW复形 $(P^{n}(X),X)$是 $(P^{n-1}(X),X)$的子复形. 进一步, 嵌入 $P^{n}(X)\hookrightarrow P^{n-1}(X)$定义了一个自然变换 $f_{n}:P^{n}\to P^{n-1}$.
+        \end{proposition}
+
+        \begin{corollary}
+            序列 $\{P^{n}(X),f_{n}(X)\}$是 $X$的一个同伦预解, 称为 $X$的 \emph{典范同伦预解}(canonical homotopy resolution).
+        \end{corollary}
+
+        由推论 \ref{cor:correspondence of homotopy class with cohomology}, 对任意 $u \in H^{n}(X;\Pi)(n\ge 1)$, 存在唯一的映射同伦类
+        \begin{equation*}
+          h:X\to K=K(\Pi,n)
+        \end{equation*}
+        使得 $h^{*}\iota^{n}(K)=u$. 令 $W(u)$是 $h$的映射纤维, $q:W(u)\to X$是其在 $X$上的纤维化. 
+        \begin{equation*}
+          \begin{tikzcd}
+            W(u) \arrow[d, "q"'] \arrow[r, "g"] & \mathbf{I}^{h} \arrow[d, "p"] \\
+            X \arrow[r, "h"'] & K
+          \end{tikzcd}
+        \end{equation*}
+        映射 $q:W(u)\to X$称为 $X$通过 $K$的\emph{放大}(amplification). 因为映射 $h$在同伦意义下唯一, 所以纤维化 $q$在纤维同伦意义下唯一. 特别地, $W(u)$在同伦意义下唯一. 纤维化 $q$的纤维 $\Omega(K)$是一个 $(\Pi,n-1)$-型的EM空间.
+
+        考虑纤维化的同伦群长正合列 
+        \begin{equation}
+          \cdots\to \pi_{r+1}(X)\xrightarrow{h_*} \pi_{r+1}(K)\xrightarrow{\Delta_*}\pi_{r}(W(u))\xrightarrow{q_*}\pi_{r}(X)\to \cdots
+        \end{equation}
+        因为 $\pi_{r}(K)=0,\forall r\neq n$, 可知
+        \begin{equation*}
+            \begin{aligned}
+                q_{*}:\pi_{r}(W(u))&\approx\pi_{r}(X)\quad(n-1\neq r\neq n),\\
+                \pi_{n}(W(u))&=\text{Ker }\tilde{u},
+            \end{aligned}
+        \end{equation*}
+        当 $r=n-1$时有短正合列 
+        \begin{equation*}
+          0\to \operatorname{Cok}\tilde{u}\to \pi_{n-1}(W(u))\to \pi_{n-1}(X)\to 0,
+        \end{equation*}
+        其中
+        \begin{equation*}
+          \tilde{u}=\pi_{n}(h):\pi_{n}(X)\to \pi_{n}(K(\Pi,n))=\Pi.
+        \end{equation*} 
+
+        同态 $\tilde{u}$有显式表示
+        \begin{theorem}
+            对所有 $\alpha \in \pi_{n}(X)$,
+            \begin{equation*}
+                \tilde{u}(\alpha)=\langle u,\rho(\alpha)\rangle.
+            \end{equation*}
+        \end{theorem}
+
+        \begin{proof}
+            考虑交换图 
+            \begin{equation*}
+              \begin{tikzcd}
+                \pi_{n}(X) \arrow[d, "\rho"'] \arrow[r, "\tilde{u}"] & \pi_{n}(K)=\Pi \arrow[d, "\rho"] \\
+                H_{n}(X) \arrow[r, "h_*"'] & H_{n}(K),
+              \end{tikzcd}
+            \end{equation*}
+            所以由 $\iota^{n}(K)$的定义
+            \begin{equation*}
+                \begin{aligned}
+                    \langle u,\rho(\alpha)\rangle & =\langle h^{*}\iota^{n}(K), \rho(\alpha)\rangle=\langle\iota^{n}(K), h_{*}\rho(\alpha)\rangle  \\
+                    &=\langle\iota^{n}(K), \rho\tilde{u}(\alpha)\rangle \\
+                    &=\tilde{u}(\alpha)
+                \end{aligned}
+            \end{equation*}
+        \end{proof}
+
+        \begin{corollary}
+            \label{cor:amplification of n-1 anticonnected space}
+            若 $X$是 $(n-1)$-反连通的, 则 $W(u)$是 $n$-反连通的, 并且
+            \begin{equation*}
+                \begin{aligned}
+                    q_{*}:\pi_{r}(W(u))&\approx\pi_{r}(X)\quad(r\neq n-1),\\
+                    \pi_{n-1}(W(u))&\approx\Pi.
+                \end{aligned}
+            \end{equation*}
+        \end{corollary}
+
+        \begin{proof}
+            注意到这时 $\operatorname{Ker} \tilde{u}=0$, $\operatorname{Cok}\tilde{u}=\pi_{n}(K)$.
+        \end{proof}
+
+        构造空间 $X$的Postnikov系统的每一步都在弱同伦等价的意义下可以由上述空间放大的手段实现. 特别地
+
+        \begin{theorem}
+            令 $\{X^{n},f_{n},k^{n+2}\}$是连通CW复形 $X$的一个Postnikov系统. 对任意正整数 $n$, 令 $q_{n+1}:W^{n+1}\to X^{n}$是空间 $X^{n}$通过上同调类 $k^{n+2}\in H^{n+2}(X^{n};\pi_{n+1}(X))$的放大. 则存在弱同伦等价 $g_{n+1}:X^{n+1}\to W^{n+1}$使得 $q_{n+1}\circ g_{n+1}=f_{n+1}$.
+        \end{theorem}
+
+        有了上述准备, 我们看到对任意连通单CW复形 $X$, 存在序列 
+        \begin{equation*}
+            \mathscr{P}(X)=\{\Pi_n, X^{n-1}, k^{n+1},f_n| n\geq1\},
+        \end{equation*}
+        其中
+        \begin{enumerate}
+            \item $\Pi_{n}(=\pi_{n}(X))$是一个Abel群;
+            \item $X^{n-1}$是一个CW复形, 且 $X^{0}$可缩;
+            \item $k^{n+1}\in H^{n+1}(X_{n-1};\Pi_{n})$;
+            \item 有交换图 
+            \begin{equation*}
+              \begin{tikzcd}
+                X^{n}\arrow[r, "g_{n}"] \arrow[rd, "f_{n}"'] & W(k^{n+1}) \arrow[d, "q_{n}"] \\
+                & X^{n-1}
+              \end{tikzcd}
+            \end{equation*}
+            使得 $g_{n}$是一个弱同伦等价.
+        \end{enumerate}
+
+        反过来我们想问: 给定一个满足上述条件 1-4 的系统 $\mathscr{P}$(称为Postnikov系统), 是否存在一个拓扑空间 $X$使得其Postnikov系统恰为 $\mathscr{P}$? 若存在, 该拓扑空间是否唯一?
+
+        由推论 \ref{cor:amplification of n-1 anticonnected space} 及对 $n$归纳, 知 
+        \begin{theorem}
+            令 $\mathscr{P}=\{\Pi_{n}, X^{n-1}, k^{n+1},f_{n}\}$是一个 Postnikov系统. 则 
+            \begin{enumerate}
+                \item $X^{n-1}$是连通的, 单的;
+                \item $\pi_{i}(X^{n})\simeq \Pi_{i},i=1, \ldots ,n$; $\pi_{i}(X^{n})=0, \forall i>n$;
+                \item $\pi_{i}(f_{n}):\pi_{i}(X^{n})\to \pi_{i}(X^{n-1})$ 当 $i\neq n$时是同构.
+            \end{enumerate}
+        \end{theorem}
+
+        如果不要求每个 $X^{n}$是CW复形, 则可以将每个粘接映射 $f_{n}$做成纤维化. 令 $p_1:Y^{1}=\mathbf{I}^{f_1}\to X^{0}=Y^{0}$, $j_0:X^{0}\to Y^{0}$是恒等映射, $j_1:X^{1}\to Y^{1}$是嵌入. 令 $p_2:Y^{2}=\mathbf{I}^{j_1\circ f_2}\to Y^{1}$, $j_2:X^{2}\hookrightarrow Y^{2}$. 重复上述构造, 我们得到交换图 
+        \begin{equation}
+            \label{eq:commutative diagram of fibred Postnikov system}
+          \begin{tikzcd}
+            \cdots \arrow[r] & X^{n+1} \arrow[d, "j_{n+1}"] \arrow[r, "f_{n+1}"] & X^{n} \arrow[d, "j_{n}"] \arrow[r] & \cdots \arrow[r] & X^{1}\arrow[d, "j_1"] \arrow[r, "f_1"] & X^{0} \arrow[d, "j_0"] \\
+            \cdots \arrow[r] & Y^{n+1} \arrow[r, "p_{n+1}"'] & Y^{n} \arrow[r] & \cdots \arrow[r] & Y^{1} \arrow[r, "p_1"'] & Y_0
+          \end{tikzcd}
+        \end{equation}
+
+        其中
+        \begin{enumerate}
+            \item $p_{n+1}:Y^{n+1}\to Y^{n}$是一个纤维化 ($n\ge 0$),
+            \item $j_{n}:X^{n}\to Y^{n}$是一个嵌入, 同时是一个同伦等价.
+        \end{enumerate}
+
+        \begin{definition}
+            满足如下条件的序列 $\mathfrak{Y}=\{\Pi_{n}, Y^{n-1}, p_{n}|n\geq1\}$ 称为 $X$的一个\emph{纤维化的Postnikov系统}(fibred Postnikov system):
+            \begin{enumerate}
+                \item $\Pi_{n}$是Abel群;
+                \item $Y^{0}$是可缩的;
+                \item $p_{n}:Y^{n}\to Y^{n-1}$是纤维化, 其纤维 $F_{n}$是 $(\Pi_{n},n)$-型的EM空间;
+                \item 内射 $\pi_{n}(F_{n})\to \pi_{n}(Y^{n})$是同构.
+            \end{enumerate}
+        \end{definition}
+
+        \begin{theorem}
+            \label{thm:fibration of Postnikov system}
+            令 $\mathscr{P}=\{\Pi_{n}, X^{n-1}, k^{n+1},f_{n}\}$是一个Postnikov系统. 则存在一个纤维化的Postnikov系统 $\mathfrak{Y}=\{\Pi_{n}, Y^{n-1}, p_{n}\}$以及交换图 \ref{eq:commutative diagram of fibred Postnikov system}. 特别地, 
+            \begin{enumerate}
+                \item $Y^{n-1}$是连通的, 单的;
+                \item $\pi_{q}(Y^{n})\simeq \Pi_{q},q=1, \ldots ,n$; $\pi_{q}(Y^{n})=0, \forall q> n$;
+                \item $\pi_{q}(p_{n}):\pi_{q}(Y^{n})\to \pi_{q}(Y^{n-1})$对 $q\neq n$是同构.
+            \end{enumerate}
+        \end{theorem}
+
+        令 $Y$是上述纤维化的Postnikov系统中 $\{Y^{n},p_{n}\}$在紧生成空间范畴中的逆极限. 交换图
+        \begin{equation*}
+          \begin{tikzcd}
+            & \pi_{q}(Y^{n}) \arrow[dd, "\pi_{q}(p_{n})"] \\
+            \pi_{q}(Y) \arrow[ru, "\pi_{q}(g_{n})"] \arrow[rd, "\pi_{q}(g_{n-1})"'] & \\
+            & \pi_{q}(Y^{n-1})
+          \end{tikzcd}
+        \end{equation*}
+        定义了同态 
+        \begin{equation*}
+          \eta:\pi_{q}(Y)\to \varprojlim \pi_{q}(Y^{n}).
+        \end{equation*}
+
+        \begin{theorem}
+            存在短正合列
+            \begin{equation*}
+              0\to {\varprojlim_{n}}^{1} \pi_{q+1}(Y^{n})\to \pi_{q}(Y) \xrightarrow{\eta} \varprojlim_{n} \pi_{q}(Y^{n})\to 0.
+            \end{equation*}
+        \end{theorem}
+
+        \begin{corollary}
+            若 $\mathfrak{Y}=\{\Pi_n, Y^n, p_n\}$是纤维化的Postnikov系统, 则 
+            \begin{equation*}
+              \pi_{q}(Y)\simeq \varprojlim_{n} \pi_{q}(Y^{n})\simeq P_{q}.
+            \end{equation*}
+        \end{corollary}
+
+        \begin{proof}
+            此时 ${\varprojlim}^{1}$项消失, 因为对充分大的 $n$, $\pi_{q+1}(p_{n})$总是同构.
+        \end{proof}
+
+        \begin{theorem}
+            令 $\mathfrak{Y}=\{\Pi_{n}, Y^{n}, p_{n}\}$是纤维化的Postnikov系统, $Y=\varprojlim_{n}Y^{n}$. 令 $h:X\to Y$是CW逼近, 且 $\{X^{n},f_{n}\}$是 $X$的一个同伦预解. 则存在弱同伦等价
+            \begin{equation*}
+                h_n:X^n\to Y^n\quad(n=0, 1, 2,\ldots)
+            \end{equation*}
+            使得下图交换
+            \begin{equation*}
+              \begin{tikzcd}
+                X\arrow[r, "h"] \arrow[d, "i_{n+1}"'] & Y \arrow[d, "g_{n+1}"] \\
+                X^{n+1} \arrow[r, "h_{n+1}"'] \arrow[d, "f_{n+1}"'] & Y^{n+1} \arrow[d, "p_{n+1}"] \\
+                X^{n} \arrow[r, "h_{n}"'] & Y^{n}.
+              \end{tikzcd}
+            \end{equation*}
+        \end{theorem}
+
+        \begin{proof}
+            假设对 $n=0,1, \ldots ,N(N\ge 0)$已经定义了符合条件的 $h_{n}$. 由定理 \ref{thm:extension properties of anticonnected extension}, 存在映射 $h_{N+1}':X^{N+1}\to Y^{N+1}$使得 $h_{N+1}'\circ i_{N+1}=g_{N+1}\circ h$. 另一方面, 映射 $p_{N+1}\circ h_{N+1}'$和 $h_{N}\circ f_{N+1}$是 $g_{N}\circ h$的扩张, 所以仍由定理 \ref{thm:extension properties of anticonnected extension}, 
+            \begin{equation*}
+                p_{N+1}\circ h_{N+1}^{\prime}\simeq h_{N}\circ f_{N+1}\quad(\text{相对 }X).
+            \end{equation*}
+            因为 $p_{N+1}$是纤维化, 存在映射 $h_{N+1}:X^{N+1}\to Y^{N+1}$使得 $p_{N+1}\circ h_{N+1}=h_{N}\circ f_{N+1}$且 $h_{N+1}\simeq h_{N+1}'$(相对 $X$). 特别地, 
+            \begin{equation*}
+                h_{N+1}\circ i_{N+1}=h_{N+1}|X=h_{N+1}^{\prime}|X=h_{N+1}^{\prime}\circ i_{N+1}=g_{N+1}\circ h.
+            \end{equation*}
+        \end{proof}
+
+        \begin{theorem}
+            令 $X$是连通的单CW复形, $\{X^{n},f_{n}\}$是 $X$的一个同伦预解, $\mathscr{P}$是相应的Postnikov系统. 令 $\mathfrak{Y}$是一个满足定理 \ref{thm:fibration of Postnikov system} 结论的纤维化的Postnikov系统. 则映射 
+            \begin{equation*}
+              j_{n}\circ i_{n}:X\to Y^{n}
+            \end{equation*}
+            决定了映射 $h:X\to Y=\varprojlim_{n} Y^{n}$, 且 $h$是一个弱同伦等价.
+        \end{theorem}
+
+
+    \section{Homology of Fibre Spaces I}
+        
+        
+
+    \bibliographystyle{plain}
+	\bibliography{Homotopy}
+\end{document}
